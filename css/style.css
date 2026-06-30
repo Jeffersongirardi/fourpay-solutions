@@ -251,9 +251,7 @@ ul {
 }
 
 .hero-image img {
-  max-width: 100%;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  width: 100%;
 }
 
 /* ===== SECTIONS ===== */
