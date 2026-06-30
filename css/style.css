@@ -715,13 +715,16 @@ ul {
 }
 
 .newsletter-form {
-  display: flex;
-  gap: 12px;
   max-width: 480px;
   margin: 0 auto;
 }
 
-.newsletter-form input {
+.newsletter-form .form-fields {
+  display: flex;
+  gap: 12px;
+}
+
+.newsletter-form .form-fields input {
   flex: 1;
   padding: 14px 18px;
   border-radius: 10px;

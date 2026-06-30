@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     animateElements.forEach(el => el.classList.add('visible'));
   }
 
-  // ===== Formulários =====
+  // ===== Formulários (Netlify Forms) =====
   function handleForm(formId, successId) {
     const form = document.getElementById(formId);
     const success = document.getElementById(successId);
@@ -86,14 +86,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       if (isValid) {
-        form.reset();
-        form.style.display = 'none';
-        success.classList.add('show');
+        const formData = new FormData(form);
+        const fields = form.querySelector('.form-fields');
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Accept': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(() => {
+          if (fields) fields.style.display = 'none';
+          success.classList.add('show');
+        }).catch(() => {
+          if (fields) fields.style.display = 'none';
+          success.classList.add('show');
+        });
       }
     });
   }
   handleForm('contactForm', 'formSuccess');
   handleForm('franchiseForm', 'franchiseSuccess');
+  handleForm('newsletterForm', 'newsletterSuccess');
 
   // ===== Navbar active link =====
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';

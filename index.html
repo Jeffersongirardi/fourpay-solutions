@@ -244,9 +244,15 @@
     <div class="container">
       <h2>Receba novidades</h2>
       <p>Inscreva-se para receber conteúdos exclusivos sobre o mercado de pagamentos</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Seu melhor email" required />
-        <button type="submit" class="btn btn-primary">Inscrever</button>
+      <form id="newsletterForm" class="newsletter-form" data-netlify="true">
+        <input type="hidden" name="form-name" value="Newsletter" />
+        <div class="form-fields">
+          <input type="email" name="email" placeholder="Seu melhor email" required />
+          <button type="submit" class="btn btn-primary">Inscrever</button>
+        </div>
+        <div class="form-success" id="newsletterSuccess">
+          <i class="fas fa-check-circle"></i> Inscrição realizada com sucesso!
+        </div>
       </form>
     </div>
   </section>

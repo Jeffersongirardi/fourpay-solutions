@@ -74,36 +74,39 @@
         </div>
         <div class="contact-form animate">
           <h3>Envie sua mensagem</h3>
-          <form id="contactForm">
-            <div class="form-group">
-              <label for="nome">Nome completo</label>
-              <input type="text" id="nome" name="nome" required />
+          <form id="contactForm" class="form-wrapper" data-netlify="true">
+            <input type="hidden" name="form-name" value="Contato" />
+            <div class="form-fields">
+              <div class="form-group">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" />
+              </div>
+              <div class="form-group">
+                <label for="assunto">Assunto</label>
+                <select id="assunto" name="assunto">
+                  <option value="">Selecione</option>
+                  <option>Quero ser cliente</option>
+                  <option>Quero ser franqueado</option>
+                  <option>Suporte</option>
+                  <option>Outro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="mensagem">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+                Enviar mensagem <i class="fas fa-arrow-right"></i>
+              </button>
             </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="telefone">Telefone</label>
-              <input type="tel" id="telefone" name="telefone" />
-            </div>
-            <div class="form-group">
-              <label for="assunto">Assunto</label>
-              <select id="assunto" name="assunto">
-                <option value="">Selecione</option>
-                <option>Quero ser cliente</option>
-                <option>Quero ser franqueado</option>
-                <option>Suporte</option>
-                <option>Outro</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="mensagem">Mensagem</label>
-              <textarea id="mensagem" name="mensagem" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-              Enviar mensagem <i class="fas fa-arrow-right"></i>
-            </button>
             <div class="form-success" id="formSuccess">
               <i class="fas fa-check-circle"></i> Mensagem enviada com sucesso! Entraremos em contato em breve.
             </div>
