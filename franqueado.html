@@ -168,8 +168,9 @@
         <p>Deixe seus dados que entraremos em contato</p>
       </div>
       <div style="max-width: 600px; margin: 0 auto;">
-        <form class="contact-form" id="franchiseForm" data-netlify="true">
+        <form class="contact-form" id="franchiseForm" name="Franqueado" method="POST" novalidate data-netlify="true" netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="Franqueado" />
+          <p class="hidden" style="display:none"><input name="bot-field" type="text" /></p>
           <div class="form-fields">
             <div class="form-group">
               <label for="nome">Nome completo</label>

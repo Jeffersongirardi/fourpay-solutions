@@ -63,8 +63,9 @@
         </div>
         <div class="contact-form animate">
           <h3>Envie sua mensagem</h3>
-          <form id="contactForm" class="form-wrapper" data-netlify="true">
+          <form id="contactForm" class="form-wrapper" name="Contato" method="POST" novalidate data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="Contato" />
+            <p class="hidden" style="display:none"><input name="bot-field" type="text" /></p>
             <div class="form-fields">
               <div class="form-group">
                 <label for="nome">Nome completo</label>

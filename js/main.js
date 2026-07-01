@@ -90,14 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const fields = form.querySelector('.form-fields');
         fetch('/', {
           method: 'POST',
-          headers: { 'Accept': 'application/x-www-form-urlencoded' },
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(formData).toString()
         }).then(() => {
           if (fields) fields.style.display = 'none';
           success.classList.add('show');
         }).catch(() => {
-          if (fields) fields.style.display = 'none';
-          success.classList.add('show');
+          alert('Erro ao enviar formulário. Tente novamente.');
         });
       }
     });

@@ -243,8 +243,9 @@
     <div class="container">
       <h2>Receba novidades</h2>
       <p>Inscreva-se para receber conteúdos exclusivos sobre o mercado de pagamentos</p>
-      <form id="newsletterForm" class="newsletter-form" data-netlify="true">
+      <form id="newsletterForm" class="newsletter-form" name="Newsletter" method="POST" novalidate data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="Newsletter" />
+        <p class="hidden" style="display:none"><input name="bot-field" type="text" /></p>
         <div class="form-fields">
           <input type="email" name="email" placeholder="Seu melhor email" required />
           <button type="submit" class="btn btn-primary">Inscrever</button>
