@@ -2,15 +2,6 @@
 
 Site institucional da FOURPAY SOLUTIONS — Master Franqueado Fiserv no Paraná e Rio Grande do Sul.
 
-## Sumário
-
-- [Sobre](#sobre)
-- [Páginas](#páginas)
-- [Tecnologias](#tecnologias)
-- [Estrutura](#estrutura)
-- [Deploy](#deploy)
-- [Domínio](#domínio)
-
 ## Sobre
 
 Site estático e responsivo com informações sobre a FOURPAY SOLUTIONS, seus serviços (Clover, TEF, Máquina BIN, BIN Tap, Link de Pagamento), programa de franqueados BIN da Fiserv, blog com conteúdo do mercado de pagamentos e formulários de contato.
@@ -62,22 +53,17 @@ Site estático e responsivo com informações sobre a FOURPAY SOLUTIONS, seus se
 
 O deploy é feito automaticamente via **Netlify** conectado ao repositório GitHub. A cada push na branch `main`, o site é publicado.
 
-Para deploy manual:
-
 ```bash
 netlify deploy --prod --dir=.
 ```
 
-### netlify.toml
+### Domínio
 
-```toml
-[build]
-  publish = "."
-```
+`www.fourpay.com.br` com redirecionamento automático do domínio raiz.
 
-## Domínio
+### Formulários
 
-`fourpay.com.br` apontado para a Netlify via DNS.
+Os formulários (Newsletter, Contato, Franqueado) usam **Netlify Forms** com proteção anti-spam via honeypot. Submissões são gerenciadas no dashboard do Netlify.
 
 ---
 
