@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adesão Franqueado BIN | FOURPAY SOLUTIONS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="favicon.png" type="image/png" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="imagens/4Pay.webp" alt="FOURPAY SOLUTIONS" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="maquina-bin.html">Máquina Bin</a>
+        <a href="franqueado.html">Seja um Franqueado</a>
+        <a href="blog.html">Blog</a>
+        <a href="contato.html">Contato</a>
+        <a href="http://masterfranquiafourpay.us-east-2.elasticbeanstalk.com/login" target="_blank" class="btn-nav">Área do Franqueado <i class="fas fa-external-link-alt"></i></a>
+      </div>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1>Adesão Franqueado BIN</h1>
+      <p>Preencha as informações abaixo para formalizar sua adesão à rede de franqueados</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="stepper-wrapper">
+
+        <div class="stepper-nav">
+          <button type="button" class="stepper-step active" data-step="1">
+            <span class="stepper-num">1</span>
+            <span class="stepper-label">Empresa</span>
+          </button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="2">
+            <span class="stepper-num">2</span>
+            <span class="stepper-label">Sócio</span>
+          </button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="3">
+            <span class="stepper-num">3</span>
+            <span class="stepper-label">Documentos</span>
+          </button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="4">
+            <span class="stepper-num">4</span>
+            <span class="stepper-label">Consentimentos</span>
+          </button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="5">
+            <span class="stepper-num">5</span>
+            <span class="stepper-label">Revisão</span>
+          </button>
+        </div>
+
+        <form id="adesaoForm" class="adesao-form" name="Adesao" method="POST" enctype="multipart/form-data" novalidate data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="Adesao" />
+          <p class="hidden" style="display:none"><input name="bot-field" type="text" /></p>
+
+          <!-- ETAPA 1: Dados da Empresa -->
+          <div class="stepper-content active" data-step="1">
+            <h3>Dados da Empresa</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="razao_social">Razão Social *</label>
+                <input type="text" id="razao_social" name="razao_social" required placeholder="Nome completo da empresa" />
+              </div>
+              <div class="form-group">
+                <label for="cnpj">CNPJ *</label>
+                <input type="text" id="cnpj" name="cnpj" class="mask-cnpj" required placeholder="00.000.000/0000-00" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="endereco_empresa">Endereço completo *</label>
+              <input type="text" id="endereco_empresa" name="endereco_empresa" required placeholder="Logradouro, nº, complemento, bairro, cidade, estado, CEP" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="banco">Banco *</label>
+                <input type="text" id="banco" name="banco" required placeholder="Ex: Banco do Brasil" />
+              </div>
+              <div class="form-group">
+                <label for="agencia">Agência *</label>
+                <input type="text" id="agencia" name="agencia" required placeholder="Número da agência" />
+              </div>
+              <div class="form-group">
+                <label for="conta_corrente">Conta corrente *</label>
+                <input type="text" id="conta_corrente" name="conta_corrente" required placeholder="Número da conta" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="regiao">Região de interesse *</label>
+              <select id="regiao" name="regiao" required>
+                <option value="">Selecione a região</option>
+                <option>Paraná</option>
+                <option>Rio Grande do Sul</option>
+                <option>Ambos</option>
+              </select>
+            </div>
+            <div class="stepper-buttons">
+              <span></span>
+              <button type="button" class="btn btn-primary stepper-next" data-next="2">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 2: Dados do Sócio Operador -->
+          <div class="stepper-content" data-step="2">
+            <h3>Dados do Sócio Operador</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome_socio">Nome completo *</label>
+                <input type="text" id="nome_socio" name="nome_socio" required />
+              </div>
+              <div class="form-group">
+                <label for="nacionalidade">Nacionalidade *</label>
+                <input type="text" id="nacionalidade" name="nacionalidade" required placeholder="Ex: Brasileiro(a)" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rg">RG *</label>
+                <input type="text" id="rg" name="rg" class="mask-rg" required placeholder="00.000.000-0" />
+              </div>
+              <div class="form-group">
+                <label for="cpf">CPF *</label>
+                <input type="text" id="cpf" name="cpf" class="mask-cpf" required placeholder="000.000.000-00" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="estado_civil">Estado civil *</label>
+                <select id="estado_civil" name="estado_civil" required>
+                  <option value="">Selecione</option>
+                  <option>Solteiro(a)</option>
+                  <option>Casado(a)</option>
+                  <option>Divorciado(a)</option>
+                  <option>Viúvo(a)</option>
+                  <option>União Estável</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="profissao">Profissão *</label>
+                <input type="text" id="profissao" name="profissao" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="telefone">Telefone para contato *</label>
+                <input type="tel" id="telefone" name="telefone" class="mask-tel" required placeholder="(00) 00000-0000" />
+              </div>
+              <div class="form-group">
+                <label for="email_socio">E-mail *</label>
+                <input type="email" id="email_socio" name="email_socio" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="endereco_socio">Endereço completo *</label>
+              <input type="text" id="endereco_socio" name="endereco_socio" required placeholder="Logradouro, nº, complemento, bairro, cidade, estado, CEP" />
+            </div>
+            <div class="form-group">
+              <label for="tamanho_uniforme">Tamanho do uniforme *</label>
+              <select id="tamanho_uniforme" name="tamanho_uniforme" required>
+                <option value="">Selecione</option>
+                <option>PP</option>
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+                <option>XG</option>
+              </select>
+            </div>
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="1"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="button" class="btn btn-primary stepper-next" data-next="3">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 3: Documentos -->
+          <div class="stepper-content" data-step="3">
+            <h3>Documentos</h3>
+            <p class="step-desc">Anexe os documentos abaixo em formato PDF (limite total de 8 MB). Todos os itens são obrigatórios.</p>
+
+            <div class="doc-upload">
+              <div class="form-group">
+                <label for="doc_contrato_social">Contrato social da empresa (se houver mais de um sócio) ou Cartão CNPJ (se sócio único) *</label>
+                <div class="file-input-wrapper">
+                  <input type="file" id="doc_contrato_social" name="doc_contrato_social" required accept=".pdf" />
+                  <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="doc_rg">RG do sócio que assinará os documentos *</label>
+                <div class="file-input-wrapper">
+                  <input type="file" id="doc_rg" name="doc_rg" required accept=".pdf" />
+                  <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="doc_cpf">CPF do sócio que assinará os documentos *</label>
+                <div class="file-input-wrapper">
+                  <input type="file" id="doc_cpf" name="doc_cpf" required accept=".pdf" />
+                  <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="doc_comprovante_bancario">Comprovante de domicílio bancário da conta em nome da empresa *</label>
+                <div class="file-input-wrapper">
+                  <input type="file" id="doc_comprovante_bancario" name="doc_comprovante_bancario" required accept=".pdf" />
+                  <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert-box">
+              <i class="fas fa-info-circle"></i>
+              <span>Contas de pessoa física não serão aceitas. O domicílio bancário deve pertencer ao mesmo CNPJ informado. A assinatura deve ser feita exclusivamente por sócio operador presente no contrato social.</span>
+            </div>
+
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="2"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="button" class="btn btn-primary stepper-next" data-next="4">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 4: Consentimentos -->
+          <div class="stepper-content" data-step="4">
+            <h3>Declarações e Consentimentos</h3>
+            <p class="step-desc">Marque todos os itens abaixo para confirmar sua ciência e concordância.</p>
+
+            <div class="consent-list">
+              <label class="consent-item">
+                <input type="checkbox" name="consent_dedicacao" value="Ciente e concordo" />
+                <span><strong>Dedicação total:</strong> Você entende que o modelo de negócios exige dedicação integral e que há uma performance mínima exigida da unidade franqueada?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_perfil_comercial" value="Ciente e concordo" />
+                <span><strong>Perfil comercial:</strong> Você está ciente de que a franquia BIN exige atuação comercial ativa, com prospecção constante de novos clientes e desenvolvimento de carteira?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_relacionamento" value="Ciente e concordo" />
+                <span><strong>Relacionamento com clientes:</strong> Você se compromete a manter relacionamento contínuo com sua base de clientes, prestando suporte, acompanhamento e garantindo a satisfação?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_investimento" value="Ciente e concordo" />
+                <span><strong>Investimento:</strong> Você declara ter ciência de que o investimento inclui capital de giro e que <u>não há garantia de faturamento mínimo</u>?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_territorialidade" value="Ciente e concordo" />
+                <span><strong>Territorialidade:</strong> Você concorda em respeitar a política de territorialidade e não atuar fora da região designada pela franqueadora?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_capacitacao" value="Ciente e concordo" />
+                <span><strong>Capacitação:</strong> Você se compromete a participar integralmente dos treinamentos e capacitações promovidos pela Master Franquia?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_veracidade" value="Ciente e concordo" />
+                <span><strong>Veracidade:</strong> Você declara que todas as informações prestadas neste formulário são verdadeiras e assume integral responsabilidade pelas mesmas?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_comunicacao" value="Autorizo" />
+                <span><strong>Comunicação:</strong> Você autoriza a FOURPAY SOLUTIONS e a Fiserv a utilizar os dados fornecidos para contato, análise de perfil e comunicação sobre o processo de franquia?</span>
+              </label>
+
+              <label class="consent-item">
+                <input type="checkbox" name="consent_assinatura_digital" value="Concordo" />
+                <span><strong>Assinatura digital:</strong> Você concorda que o envio deste formulário equivale à sua assinatura digital para todos os efeitos legais?</span>
+              </label>
+            </div>
+
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="3"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="button" class="btn btn-primary stepper-next" data-next="5">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 5: Revisão e Envio -->
+          <div class="stepper-content" data-step="5">
+            <h3>Revisão dos Dados</h3>
+            <p class="step-desc">Confira todas as informações antes de enviar. Você pode voltar às etapas anteriores para corrigir.</p>
+
+            <div id="reviewContent" class="review-content"></div>
+
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="4"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="submit" class="btn btn-primary btn-submit" style="width:auto;">
+                Enviar Adesão <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-success" id="adesaoSuccess">
+            <i class="fas fa-check-circle"></i> Adesão enviada com sucesso! Recebemos sua documentação. Em até 48 horas úteis entraremos em contato.
+          </div>
+          <div class="form-error" id="adesaoError">
+            <i class="fas fa-exclamation-circle"></i> Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <img src="imagens/4Pay.webp" alt="FOURPAY SOLUTIONS" />
+          </div>
+          <p>Soluções para meios de pagamento. Master Franqueado Fiserv no Paraná e Rio Grande do Sul.</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/4pay_solutions/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/fourpaysolutions/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/4paysolutions" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Produtos</h4>
+          <ul>
+            <li><a href="servicos.html#clover">Clover</a></li>
+            <li><a href="servicos.html#tef">TEF</a></li>
+            <li><a href="maquina-bin.html">Máquina BIN</a></li>
+            <li><a href="servicos.html#bin-tap">BIN Tap</a></li>
+            <li><a href="servicos.html#link-pagamento">Link de Pagamento</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="contato.html">Fale conosco</a></li>
+            <li><a href="franqueado.html">Seja um franqueado</a></li>
+            <li><a href="http://masterfranquiafourpay.us-east-2.elasticbeanstalk.com/login" target="_blank">Área do Franqueado</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 FOURPAY SOLUTIONS. Todos os direitos reservados. Site desenvolvido por Jefferson Girardi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
