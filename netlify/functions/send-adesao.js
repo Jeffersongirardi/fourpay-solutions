@@ -79,23 +79,31 @@ exports.handler = async (event) => {
     }
 
     const consentFields = [
-      { field: 'consent_dedicacao', label: 'Dedicação total' },
-      { field: 'consent_perfil_comercial', label: 'Perfil comercial' },
-      { field: 'consent_relacionamento', label: 'Relacionamento com clientes' },
-      { field: 'consent_investimento', label: 'Investimento' },
-      { field: 'consent_territorialidade', label: 'Territorialidade' },
-      { field: 'consent_capacitacao', label: 'Capacitação' },
-      { field: 'consent_veracidade', label: 'Veracidade das informações' },
-      { field: 'consent_comunicacao', label: 'Comunicação (FOURPAY + Fiserv)' },
-      { field: 'consent_assinatura_digital', label: 'Assinatura digital' },
+      { field: 'consent_dedicacao', label: 'Dedicação total', question: 'Você entende que o modelo de negócios exige dedicação integral e que há uma performance mínima exigida da unidade franqueada?' },
+      { field: 'consent_perfil_comercial', label: 'Perfil comercial', question: 'Você está ciente de que a franquia BIN exige atuação comercial ativa, com prospecção constante de novos clientes e desenvolvimento de carteira?' },
+      { field: 'consent_relacionamento', label: 'Relacionamento com clientes', question: 'Você se compromete a manter relacionamento contínuo com sua base de clientes, prestando suporte, acompanhamento e garantindo a satisfação?' },
+      { field: 'consent_investimento', label: 'Investimento', question: 'Você declara ter ciência de que o investimento inclui capital de giro e que não há garantia de faturamento mínimo?' },
+      { field: 'consent_territorialidade', label: 'Territorialidade', question: 'Você concorda em respeitar a política de territorialidade e não atuar fora da região designada pela franqueadora?' },
+      { field: 'consent_capacitacao', label: 'Capacitação', question: 'Você se compromete a participar integralmente dos treinamentos e capacitações promovidos pela Master Franquia?' },
+      { field: 'consent_veracidade', label: 'Veracidade das informações', question: 'Você declara que todas as informações prestadas neste formulário são verdadeiras e assume integral responsabilidade pelas mesmas?' },
+      { field: 'consent_comunicacao', label: 'Comunicação (FOURPAY + Fiserv)', question: 'Você autoriza a FOURPAY SOLUTIONS e a Fiserv a utilizar os dados fornecidos para contato, análise de perfil e comunicação sobre o processo de franquia?' },
+      { field: 'consent_assinatura_digital', label: 'Assinatura digital', question: 'Você concorda que o envio deste formulário equivale à sua assinatura digital para todos os efeitos legais?' },
     ];
 
-    const consentItems = consentFields.map(c =>
-      `<tr><td style="padding:4px 8px;color:${fields[c.field] ? '#059669' : '#dc2626'}">${fields[c.field] ? '\u2705' : '\u274c'}</td><td style="padding:4px 8px">${c.label}: <strong>${fields[c.field] || 'N\u00e3o consentido'}</strong></td></tr>`
-    ).join('');
+    const consentItems = consentFields.map(c => {
+      const answered = !!fields[c.field];
+      const answer = fields[c.field] || 'Não consentido';
+      const color = answered ? '#059669' : '#dc2626';
+      const icon = answered ? '\u2705' : '\u274c';
+      return `<tr><td colspan="2" style="padding:4px 6px; border-bottom:1px solid #f1f5f9;">
+        <div style="color:${color}">${icon} <strong>${c.label}</strong></div>
+        <div style="color:#475569; font-size:0.82rem; margin:2px 0 0 22px;">${c.question}</div>
+        <div style="color:${color}; font-weight:600; font-size:0.85rem; margin:2px 0 0 22px;">Resposta: ${answer}</div>
+      </td></tr>`;
+    }).join('');
 
     function objRow(label, value) {
-      return `<tr><td style="padding:4px 8px; font-weight:600; color:#475569; white-space:nowrap; border-bottom:1px solid #f1f5f9;">${label}</td><td style="padding:4px 8px; border-bottom:1px solid #f1f5f9;">${value}</td></tr>`;
+      return `<tr><td style="padding:2px 6px; font-weight:600; color:#475569; white-space:nowrap; border-bottom:1px solid #f1f5f9; font-size:0.85rem;">${label}</td><td style="padding:2px 6px; border-bottom:1px solid #f1f5f9; font-size:0.85rem;">${value}</td></tr>`;
     }
 
     const html = `
@@ -106,7 +114,7 @@ exports.handler = async (event) => {
         </div>
         <div style="padding: 24px; background: #fff; border: 1px solid #e2e8f0;">
           <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Dados da Empresa</h2>
-          <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:24px;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:16px;">
             ${objRow('Raz\u00e3o Social', fields.razao_social || '\u2014')}
             ${objRow('CNPJ', fields.cnpj || '\u2014')}
             ${objRow('CEP', fields.cep || '\u2014')}
@@ -122,7 +130,7 @@ exports.handler = async (event) => {
             ${objRow('Trajet\u00f3ria', fields.trajetoria || '\u2014')}
           </table>
           <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Dados do S\u00f3cio Operador</h2>
-          <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:24px;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:16px;">
             ${objRow('Nome completo', fields.nome_socio || '\u2014')}
             ${objRow('Nacionalidade', fields.nacionalidade || '\u2014')}
             ${objRow('RG', fields.rg || '\u2014')}
@@ -140,7 +148,7 @@ exports.handler = async (event) => {
             ${objRow('Uniforme', fields.tamanho_uniforme || '\u2014')}
           </table>
           <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Documentos Anexados</h2>
-          <ul style="font-size:0.88rem; margin-bottom:24px;">${fileListItems.join('')}</ul>
+          <ul style="font-size:0.85rem; margin-bottom:16px; padding-left:20px;">${fileListItems.join('')}</ul>
           <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Consentimentos</h2>
           <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">${consentItems}</table>
         </div>
