@@ -1,21 +1,25 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
-});
+console.log('>>> send-adesao.js carregado!');
+console.log('>>> GMAIL_USER definido?', !!process.env.GMAIL_USER);
+console.log('>>> GMAIL_PASS definido?', !!process.env.GMAIL_PASS);
+console.log('>>> NOTIFICATION_EMAIL definido?', !!process.env.NOTIFICATION_EMAIL);
 
 export default async (req) => {
+  console.log('>>> Função INVOCADA');
+  console.log('>>> Method:', req.method);
+  console.log('>>> URL:', req.url);
+
   try {
+    console.log('>>> Aguardando formData...');
     const data = await req.formData();
+    console.log('>>> formData RECEBIDO com sucesso');
+
+    const razaoSocial = data.get('razao_social') || '—';
+    console.log('>>> razao_social:', razaoSocial);
 
     const fields = {
-      razao_social: data.get('razao_social') || '—',
+      razao_social: razaoSocial,
       cnpj: data.get('cnpj') || '—',
       endereco_empresa: data.get('endereco_empresa') || '—',
       banco: data.get('banco') || '—',
@@ -34,12 +38,36 @@ export default async (req) => {
       tamanho_uniforme: data.get('tamanho_uniforme') || '—',
     };
 
+    console.log('>>> Campos extraídos:', Object.keys(fields).length);
+
     const files = [
       { name: 'Contrato Social / Cartão CNPJ', field: data.get('doc_contrato_social') },
       { name: 'RG do sócio', field: data.get('doc_rg') },
       { name: 'CPF do sócio', field: data.get('doc_cpf') },
       { name: 'Comprovante bancário', field: data.get('doc_comprovante_bancario') },
     ];
+
+    files.forEach(f => {
+      console.log(`>>> Arquivo "${f.name}":`, f.field ? `presente (${f.field.name}, ${f.field.size} bytes)` : 'ausente');
+    });
+
+    console.log('>>> Iniciando build do email...');
+
+    const attachments = [];
+    const fileListItems = [];
+
+    for (const f of files) {
+      if (f.field && f.field.size > 0) {
+        console.log(`>>> Lendo buffer do arquivo: ${f.field.name}`);
+        const buffer = Buffer.from(await f.field.arrayBuffer());
+        attachments.push({ filename: f.field.name, content: buffer });
+        fileListItems.push(`<li><strong>${f.name}:</strong> ${f.field.name}</li>`);
+      } else {
+        fileListItems.push(`<li><strong>${f.name}:</strong> <em>Não anexado</em></li>`);
+      }
+    }
+
+    console.log('>>> Anexos prontos:', attachments.length);
 
     const consents = [
       { field: data.get('consent_dedicacao'), label: 'Dedicação total' },
@@ -52,19 +80,6 @@ export default async (req) => {
       { field: data.get('consent_comunicacao'), label: 'Comunicação (FOURPAY + Fiserv)' },
       { field: data.get('consent_assinatura_digital'), label: 'Assinatura digital' },
     ];
-
-    const attachments = [];
-    const fileListItems = [];
-
-    for (const f of files) {
-      if (f.field && f.field.size > 0) {
-        const buffer = Buffer.from(await f.field.arrayBuffer());
-        attachments.push({ filename: f.field.name, content: buffer });
-        fileListItems.push(`<li><strong>${f.name}:</strong> ${f.field.name}</li>`);
-      } else {
-        fileListItems.push(`<li><strong>${f.name}:</strong> <em>Não anexado</em></li>`);
-      }
-    }
 
     const consentItems = consents.map(c =>
       `<tr><td style="padding:4px 8px;color:${c.field ? '#059669' : '#dc2626'}">${c.field ? '✅' : '❌'}</td><td style="padding:4px 8px">${c.label}</td></tr>`
@@ -118,7 +133,27 @@ export default async (req) => {
       </div>
     `;
 
-    await transporter.sendMail({
+    console.log('>>> HTML do email gerado');
+    console.log('>>> Conectando ao SMTP Gmail...');
+
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    console.log('>>> Transportador criado. Enviando email...');
+    console.log('>>> PARA:', process.env.NOTIFICATION_EMAIL);
+    console.log('>>> DE:', process.env.GMAIL_USER);
+
+    const info = await transporter.sendMail({
       from: `"Adesão Franqueado" <${process.env.GMAIL_USER}>`,
       to: process.env.NOTIFICATION_EMAIL,
       subject: `📋 Nova Adesão — ${fields.razao_social}`,
@@ -126,10 +161,14 @@ export default async (req) => {
       attachments,
     });
 
+    console.log('>>> EMAIL ENVIADO! ID:', info.messageId);
     return new Response('OK', { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } });
   } catch (error) {
-    console.error('Erro ao enviar adesão:', error);
-    return new Response(error.message, { status: 500, headers: { 'Access-Control-Allow-Origin': '*' } });
+    console.error('>>> ERRO CAPTURADO:');
+    console.error('>>> Nome:', error.name || 'sem nome');
+    console.error('>>> Mensagem:', error.message || 'sem mensagem');
+    console.error('>>> Stack:', error.stack || 'sem stack');
+    return new Response(error.message || 'Erro desconhecido', { status: 500, headers: { 'Access-Control-Allow-Origin': '*' } });
   }
 };
 
