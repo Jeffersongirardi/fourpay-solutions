@@ -91,7 +91,7 @@ exports.handler = async (event) => {
     ];
 
     const consentItems = consentFields.map(c =>
-      `<tr><td style="padding:4px 8px;color:${fields[c.field] ? '#059669' : '#dc2626'}">${fields[c.field] ? '\u2705' : '\u274c'}</td><td style="padding:4px 8px">${c.label}</td></tr>`
+      `<tr><td style="padding:4px 8px;color:${fields[c.field] ? '#059669' : '#dc2626'}">${fields[c.field] ? '\u2705' : '\u274c'}</td><td style="padding:4px 8px">${c.label}: <strong>${fields[c.field] || 'N\u00e3o consentido'}</strong></td></tr>`
     ).join('');
 
     function objRow(label, value) {
@@ -109,11 +109,17 @@ exports.handler = async (event) => {
           <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:24px;">
             ${objRow('Raz\u00e3o Social', fields.razao_social || '\u2014')}
             ${objRow('CNPJ', fields.cnpj || '\u2014')}
+            ${objRow('CEP', fields.cep || '\u2014')}
             ${objRow('Endere\u00e7o', fields.endereco_empresa || '\u2014')}
+            ${objRow('Bairro', fields.bairro || '\u2014')}
+            ${objRow('Cidade', fields.cidade || '\u2014')}
+            ${objRow('Estado', fields.estado || '\u2014')}
+            ${objRow('Pa\u00eds', fields.pais || '\u2014')}
             ${objRow('Banco', fields.banco || '\u2014')}
             ${objRow('Ag\u00eancia', fields.agencia || '\u2014')}
             ${objRow('Conta corrente', fields.conta_corrente || '\u2014')}
             ${objRow('Regi\u00e3o', fields.regiao || '\u2014')}
+            ${objRow('Trajet\u00f3ria', fields.trajetoria || '\u2014')}
           </table>
           <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Dados do S\u00f3cio Operador</h2>
           <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:24px;">
@@ -125,7 +131,12 @@ exports.handler = async (event) => {
             ${objRow('Profiss\u00e3o', fields.profissao || '\u2014')}
             ${objRow('Telefone', fields.telefone || '\u2014')}
             ${objRow('E-mail', fields.email_socio || '\u2014')}
+            ${objRow('CEP', fields.cep_socio || '\u2014')}
             ${objRow('Endere\u00e7o', fields.endereco_socio || '\u2014')}
+            ${objRow('Bairro', fields.bairro_socio || '\u2014')}
+            ${objRow('Cidade', fields.cidade_socio || '\u2014')}
+            ${objRow('Estado', fields.estado_socio || '\u2014')}
+            ${objRow('Pa\u00eds', fields.pais_socio || '\u2014')}
             ${objRow('Uniforme', fields.tamanho_uniforme || '\u2014')}
           </table>
           <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Documentos Anexados</h2>

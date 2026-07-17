@@ -106,6 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
         this.value = val.substring(0, 13);
       });
     });
+
+    document.querySelectorAll('.mask-cep').forEach(input => {
+      input.addEventListener('input', function () {
+        let val = this.value.replace(/\D/g, '');
+        val = val.replace(/^(\d{5})(\d)/, '$1-$2');
+        this.value = val.substring(0, 9);
+      });
+    });
   }
   applyMasks();
 
@@ -285,11 +293,17 @@ document.addEventListener('DOMContentLoaded', () => {
       html += '<div class="review-section"><h4>Dados da Empresa</h4>';
       html += reviewRow('Razão Social', getVal('razao_social'));
       html += reviewRow('CNPJ', getVal('cnpj'));
+      html += reviewRow('CEP', getVal('cep'));
       html += reviewRow('Endereço', getVal('endereco_empresa'));
+      html += reviewRow('Bairro', getVal('bairro'));
+      html += reviewRow('Cidade', getVal('cidade'));
+      html += reviewRow('Estado', getVal('estado'));
+      html += reviewRow('País', getVal('pais'));
       html += reviewRow('Banco', getVal('banco'));
       html += reviewRow('Agência', getVal('agencia'));
       html += reviewRow('Conta corrente', getVal('conta_corrente'));
       html += reviewRow('Região', getVal('regiao'));
+      html += reviewRow('Trajetória', getVal('trajetoria'));
       html += '</div>';
 
       html += '<div class="review-section"><h4>Dados do Sócio Operador</h4>';
@@ -301,7 +315,12 @@ document.addEventListener('DOMContentLoaded', () => {
       html += reviewRow('Profissão', getVal('profissao'));
       html += reviewRow('Telefone', getVal('telefone'));
       html += reviewRow('E-mail', getVal('email_socio'));
+      html += reviewRow('CEP', getVal('cep_socio'));
       html += reviewRow('Endereço', getVal('endereco_socio'));
+      html += reviewRow('Bairro', getVal('bairro_socio'));
+      html += reviewRow('Cidade', getVal('cidade_socio'));
+      html += reviewRow('Estado', getVal('estado_socio'));
+      html += reviewRow('País', getVal('pais_socio'));
       html += reviewRow('Uniforme', getVal('tamanho_uniforme'));
       html += '</div>';
 

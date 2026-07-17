@@ -89,11 +89,42 @@
                 <input type="text" id="cnpj" name="cnpj" class="mask-cnpj" required placeholder="00.000.000/0000-00" />
               </div>
             </div>
-            <div class="form-group">
-              <label for="endereco_empresa">Endereço completo *</label>
-              <input type="text" id="endereco_empresa" name="endereco_empresa" required placeholder="Logradouro, nº, complemento, bairro, cidade, estado, CEP" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cep">CEP *</label>
+                <input type="text" id="cep" name="cep" class="mask-cep" required placeholder="00000-000" />
+              </div>
+              <div class="form-group">
+                <label for="endereco_empresa">Endereço *</label>
+                <input type="text" id="endereco_empresa" name="endereco_empresa" required placeholder="Logradouro, nº, complemento" />
+              </div>
             </div>
             <div class="form-row">
+              <div class="form-group">
+                <label for="bairro">Bairro *</label>
+                <input type="text" id="bairro" name="bairro" required placeholder="Bairro" />
+              </div>
+              <div class="form-group">
+                <label for="cidade">Cidade *</label>
+                <input type="text" id="cidade" name="cidade" required placeholder="Cidade" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="estado">Estado *</label>
+                <select id="estado" name="estado" required>
+                  <option value="">Selecione</option>
+                  <option>PR</option>
+                  <option>SC</option>
+                  <option>RS</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pais">País</label>
+                <input type="text" id="pais" name="pais" value="Brasil" readonly style="background:#f8fafc;cursor:not-allowed;" />
+              </div>
+            </div>
+            <div class="form-row three-col">
               <div class="form-group">
                 <label for="banco">Banco *</label>
                 <input type="text" id="banco" name="banco" required placeholder="Ex: Banco do Brasil" />
@@ -109,12 +140,11 @@
             </div>
             <div class="form-group">
               <label for="regiao">Região de interesse *</label>
-              <select id="regiao" name="regiao" required>
-                <option value="">Selecione a região</option>
-                <option>Paraná</option>
-                <option>Rio Grande do Sul</option>
-                <option>Ambos</option>
-              </select>
+              <input type="text" id="regiao" name="regiao" required placeholder="Descreva a região de interesse" />
+            </div>
+            <div class="form-group">
+              <label for="trajetoria">Trajetória na adquirência / setor comercial</label>
+              <textarea id="trajetoria" name="trajetoria" rows="4" placeholder="Descreva rapidamente sua trajetória na adquirência ou setor comercial, se houver"></textarea>
             </div>
             <div class="stepper-buttons">
               <span></span>
@@ -172,9 +202,40 @@
                 <input type="email" id="email_socio" name="email_socio" required />
               </div>
             </div>
-            <div class="form-group">
-              <label for="endereco_socio">Endereço completo *</label>
-              <input type="text" id="endereco_socio" name="endereco_socio" required placeholder="Logradouro, nº, complemento, bairro, cidade, estado, CEP" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cep_socio">CEP *</label>
+                <input type="text" id="cep_socio" name="cep_socio" class="mask-cep" required placeholder="00000-000" />
+              </div>
+              <div class="form-group">
+                <label for="endereco_socio">Endereço *</label>
+                <input type="text" id="endereco_socio" name="endereco_socio" required placeholder="Logradouro, nº, complemento" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="bairro_socio">Bairro *</label>
+                <input type="text" id="bairro_socio" name="bairro_socio" required placeholder="Bairro" />
+              </div>
+              <div class="form-group">
+                <label for="cidade_socio">Cidade *</label>
+                <input type="text" id="cidade_socio" name="cidade_socio" required placeholder="Cidade" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="estado_socio">Estado *</label>
+                <select id="estado_socio" name="estado_socio" required>
+                  <option value="">Selecione</option>
+                  <option>PR</option>
+                  <option>SC</option>
+                  <option>RS</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pais_socio">País</label>
+                <input type="text" id="pais_socio" name="pais_socio" value="Brasil" readonly style="background:#f8fafc;cursor:not-allowed;" />
+              </div>
             </div>
             <div class="form-group">
               <label for="tamanho_uniforme">Tamanho do uniforme *</label>
