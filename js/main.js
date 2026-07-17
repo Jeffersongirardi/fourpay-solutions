@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       var formData = new FormData(form);
-      fetch('/', {
+      fetch('/.netlify/functions/send-adesao', {
         method: 'POST',
         body: formData
       }).then(function () {
