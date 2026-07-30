@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   applyMasks();
+  initBlurValidation();
 
   // ===== File input display =====
   function initFileInputs() {
@@ -124,16 +125,93 @@ document.addEventListener('DOMContentLoaded', () => {
         const wrapper = this.closest('.file-input-wrapper');
         const placeholder = wrapper.querySelector('.file-placeholder');
         if (this.files.length) {
-          placeholder.innerHTML = '<i class="fas fa-file-pdf"></i> ' + this.files[0].name;
+          const f = this.files[0];
+          const size = f.size < 1048576 ? (f.size / 1024).toFixed(1) + ' KB' : (f.size / 1048576).toFixed(1) + ' MB';
+          placeholder.innerHTML = '<i class="fas fa-file-pdf"></i> ' + f.name + ' <span class="file-meta">(' + size + ')</span>';
           wrapper.classList.add('has-file');
+          var rmBtn = wrapper.querySelector('.file-remove');
+          if (!rmBtn) {
+            rmBtn = document.createElement('button');
+            rmBtn.type = 'button';
+            rmBtn.className = 'file-remove';
+            rmBtn.textContent = 'Remover';
+            rmBtn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              input.value = '';
+              placeholder.innerHTML = '<i class="fas fa-upload"></i> Clique para selecionar';
+              wrapper.classList.remove('has-file');
+              wrapper.style.borderColor = '';
+              rmBtn.remove();
+            });
+            wrapper.appendChild(rmBtn);
+          }
         } else {
-          placeholder.innerHTML = '<i class="fas fa-upload"></i> Clique para selecionar o arquivo';
+          placeholder.innerHTML = '<i class="fas fa-upload"></i> Clique para selecionar';
           wrapper.classList.remove('has-file');
+          var rmBtn = wrapper.querySelector('.file-remove');
+          if (rmBtn) rmBtn.remove();
         }
+        clearFieldError(wrapper.closest('.form-group'));
       });
     });
   }
   initFileInputs();
+
+  // ===== Blur validation =====
+  function initBlurValidation() {
+    document.querySelectorAll('.adesao-form [required], .adesao-form .mask-email').forEach(function (field) {
+      field.addEventListener('blur', function () {
+        validateField(this);
+      });
+      field.addEventListener('input', function () {
+        if (this.dataset.touched) clearFieldError(this.closest('.form-group'));
+      });
+    });
+  }
+
+  function validateField(field) {
+    var group = field.closest('.form-group');
+    if (!group) return true;
+    var valid = true;
+    if (field.type === 'email' && field.value.trim()) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim())) { valid = false; }
+    } else if (field.hasAttribute('required') && !field.value.trim()) {
+      valid = false;
+    }
+    field.dataset.touched = 'true';
+    if (!valid) {
+      group.classList.add('has-error');
+      var err = group.querySelector('.field-error');
+      if (!err) {
+        err = document.createElement('div');
+        err.className = 'field-error';
+        err.innerHTML = '<i class="fas fa-exclamation-circle"></i> Preencha este campo';
+        group.appendChild(err);
+      }
+    } else {
+      group.classList.remove('has-error');
+    }
+    return valid;
+  }
+
+  function clearFieldError(group) {
+    if (!group) return;
+    group.classList.remove('has-error');
+  }
+
+  // ===== Doc ID radio toggle =====
+  function initDocIdToggle() {
+    var radios = document.querySelectorAll('.doc-id-option input[name="id_option"]');
+    if (!radios.length) return;
+    radios.forEach(function (r) {
+      r.addEventListener('change', function () {
+        document.querySelectorAll('.doc-id-fields').forEach(function (el) {
+          el.style.display = el.getAttribute('data-option') === this.value ? '' : 'none';
+        }.bind(this));
+      });
+    });
+  }
+  initDocIdToggle();
 
   // ===== Consent checklist =====
   function initConsentList() {
@@ -153,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
           item.classList.remove('has-checked');
         }
       });
+      if (checkbox.checked) item.classList.add('has-checked');
     });
   }
   initConsentList();
@@ -168,6 +247,16 @@ document.addEventListener('DOMContentLoaded', () => {
     var navSteps = document.querySelectorAll('.stepper-step');
     var lines = document.querySelectorAll('.stepper-line');
     var currentStep = 1;
+
+    restoreForm();
+
+    function updateProgress(n) {
+      var pct = Math.round((n / 5) * 100);
+      var fill = document.getElementById('progressFill');
+      var num = document.getElementById('stepNum');
+      if (fill) fill.style.width = pct + '%';
+      if (num) num.textContent = n;
+    }
 
     function showStep(n) {
       steps.forEach(function (s) { s.classList.remove('active'); });
@@ -190,11 +279,36 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       currentStep = n;
+      updateProgress(n);
 
       if (n === 5) buildReview();
 
       var target = form.querySelector('.stepper-content[data-step="' + n + '"]');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function validateField(field) {
+      var group = field.closest('.form-group');
+      if (!group) return true;
+      var valid = true;
+      if (field.type === 'email' && field.value.trim()) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim())) { valid = false; }
+      } else if (field.hasAttribute('required') && !field.value.trim()) {
+        valid = false;
+      }
+      if (!valid) {
+        group.classList.add('has-error');
+        var err = group.querySelector('.field-error');
+        if (!err) {
+          err = document.createElement('div');
+          err.className = 'field-error';
+          err.innerHTML = '<i class="fas fa-exclamation-circle"></i> Preencha este campo';
+          group.appendChild(err);
+        }
+      } else {
+        group.classList.remove('has-error');
+      }
+      return valid;
     }
 
     function validateStep(n) {
@@ -220,21 +334,34 @@ document.addEventListener('DOMContentLoaded', () => {
             field.closest('.consent-item').style.borderColor = '';
           }
         } else {
-          if (!field.value.trim()) {
-            valid = false;
-            field.style.borderColor = '#dc2626';
-          } else {
-            field.style.borderColor = '';
-          }
-          if (field.type === 'email' && field.value.trim()) {
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(field.value.trim())) {
-              valid = false;
-              field.style.borderColor = '#dc2626';
-            }
-          }
+          if (!validateField(field)) valid = false;
         }
       });
+
+      if (n === 3) {
+        var option = form.querySelector('input[name="id_option"]:checked');
+        var isRGCPF = option && option.value === 'rg_cpf';
+        var rgFile = document.getElementById('doc_rg');
+        var cpfFile = document.getElementById('doc_cpf');
+        var cnhFile = document.getElementById('doc_cnh');
+        if (isRGCPF) {
+          if ((!rgFile || !rgFile.files.length) && (!cpfFile || !cpfFile.files.length)) {
+            valid = false;
+            if (rgFile) rgFile.closest('.file-input-wrapper').style.borderColor = '#dc2626';
+            if (cpfFile) cpfFile.closest('.file-input-wrapper').style.borderColor = '#dc2626';
+          } else {
+            if (rgFile) rgFile.closest('.file-input-wrapper').style.borderColor = '';
+            if (cpfFile) cpfFile.closest('.file-input-wrapper').style.borderColor = '';
+          }
+        } else {
+          if (!cnhFile || !cnhFile.files.length) {
+            valid = false;
+            if (cnhFile) cnhFile.closest('.file-input-wrapper').style.borderColor = '#dc2626';
+          } else {
+            if (cnhFile) cnhFile.closest('.file-input-wrapper').style.borderColor = '';
+          }
+        }
+      }
 
       if (n === 4) {
         stepEl.querySelectorAll('.consent-item input[type="checkbox"]').forEach(function (cb) {
@@ -253,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!validateStep(currentStep)) return;
         var next = parseInt(this.getAttribute('data-next'));
         if (next) showStep(next);
+        saveForm();
       });
     });
 
@@ -278,9 +406,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       function getVal(name) {
         var el = form.querySelector('[name="' + name + '"]');
-        if (!el) return '';
+        if (!el) return '—';
         if (el.type === 'file') return el.files.length ? el.files[0].name : 'Não anexado';
         if (el.type === 'checkbox') return el.checked ? 'Sim' : 'Não';
+        if (el.type === 'radio') {
+          var checked = form.querySelector('[name="' + name + '"]:checked');
+          return checked ? (checked.closest('.doc-id-option') ? checked.closest('.doc-id-option').textContent.trim() : checked.value) : '—';
+        }
         return el.value || '—';
       }
 
@@ -288,9 +420,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return '<div class="review-row"><span class="review-label">' + label + '</span><span class="review-value">' + val + '</span></div>';
       }
 
+      function sectionHeader(title, step) {
+        return '<div class="review-section-header"><h4>' + title + '</h4><button type="button" class="review-edit-btn" data-step="' + step + '"><i class="fas fa-pen"></i> Editar</button></div>';
+      }
+
       var html = '';
 
-      html += '<div class="review-section"><h4>Dados da Empresa</h4>';
+      html += '<div class="review-section">' + sectionHeader('Dados da Empresa', 1);
       html += reviewRow('Razão Social', getVal('razao_social'));
       html += reviewRow('CNPJ', getVal('cnpj'));
       html += reviewRow('CEP', getVal('cep'));
@@ -306,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
       html += reviewRow('Trajetória', getVal('trajetoria'));
       html += '</div>';
 
-      html += '<div class="review-section"><h4>Dados do Sócio Operador</h4>';
+      html += '<div class="review-section">' + sectionHeader('Dados do Sócio Operador', 2);
       html += reviewRow('Nome completo', getVal('nome_socio'));
       html += reviewRow('Nacionalidade', getVal('nacionalidade'));
       html += reviewRow('RG', getVal('rg'));
@@ -324,15 +460,16 @@ document.addEventListener('DOMContentLoaded', () => {
       html += reviewRow('Uniforme', getVal('tamanho_uniforme'));
       html += '</div>';
 
-      html += '<div class="review-section"><h4>Documentos</h4>';
+      html += '<div class="review-section">' + sectionHeader('Documentos', 3);
       html += '<div class="review-documents">';
       html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> Contrato social / Cartão CNPJ: ' + (getVal('doc_contrato_social') || 'Não anexado') + '</div>';
       html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> RG do sócio: ' + (getVal('doc_rg') || 'Não anexado') + '</div>';
       html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> CPF do sócio: ' + (getVal('doc_cpf') || 'Não anexado') + '</div>';
+      html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> CNH: ' + (getVal('doc_cnh') || 'Não anexado') + '</div>';
       html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> Comprovante bancário: ' + (getVal('doc_comprovante_bancario') || 'Não anexado') + '</div>';
       html += '</div></div>';
 
-      html += '<div class="review-section"><h4>Consentimentos</h4>';
+      html += '<div class="review-section">' + sectionHeader('Consentimentos', 4);
       var consents = [
         { name: 'consent_dedicacao', label: 'Dedicação total' },
         { name: 'consent_perfil_comercial', label: 'Perfil comercial' },
@@ -351,6 +488,47 @@ document.addEventListener('DOMContentLoaded', () => {
       html += '</div>';
 
       container.innerHTML = html;
+
+      container.querySelectorAll('.review-edit-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var step = parseInt(this.getAttribute('data-step'));
+          if (step) showStep(step);
+        });
+      });
+    }
+
+    form.querySelectorAll('input:not([type="file"]), textarea, select').forEach(function (el) {
+      el.addEventListener('change', function () { saveForm(); });
+      el.addEventListener('input', function () { saveForm(); });
+    });
+
+    function saveForm() {
+      var data = {};
+      form.querySelectorAll('[name]').forEach(function (el) {
+        if (el.type === 'file') return;
+        if (el.type === 'checkbox') data[el.name] = el.checked ? 'true' : '';
+        else if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; }
+        else data[el.name] = el.value;
+      });
+      data['_step'] = currentStep;
+      try { localStorage.setItem('adesaoForm', JSON.stringify(data)); } catch (e) {}
+    }
+
+    function restoreForm() {
+      var saved;
+      try { saved = JSON.parse(localStorage.getItem('adesaoForm')); } catch (e) {}
+      if (!saved) return;
+      Object.keys(saved).forEach(function (name) {
+        if (name === '_step') return;
+        var el = form.querySelector('[name="' + name + '"]');
+        if (!el) return;
+        if (el.type === 'checkbox') el.checked = saved[name] === 'true';
+        else if (el.type === 'radio') { el.checked = el.value === saved[name]; }
+        else el.value = saved[name];
+      });
+      initFileInputs();
+      initConsentList();
+      if (saved['_step'] && saved['_step'] > 1) showStep(parseInt(saved['_step']));
     }
 
     form.addEventListener('submit', function (e) {
@@ -374,7 +552,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var fields = form.querySelector('.stepper-content.active');
         if (fields) fields.style.display = 'none';
         document.querySelector('.stepper-nav').style.display = 'none';
+        var pb = document.querySelector('.stepper-progress');
+        if (pb) pb.style.display = 'none';
         success.classList.add('show');
+        try { localStorage.removeItem('adesaoForm'); } catch (e) {}
       }).catch(function () {
         errorEl.classList.add('show');
         if (btn) {

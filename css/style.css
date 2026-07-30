@@ -179,12 +179,26 @@ ul {
   align-items: center;
 }
 
-.hero-content h1 {
-  font-size: 3.2rem;
+.hero-content .hero-brand {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: var(--color-text-light);
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+
+.hero-content .hero-headline {
+  font-size: 3rem;
   font-weight: 800;
   color: var(--color-white);
   line-height: 1.15;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.text-accent {
+  color: #f97316;
 }
 
 .hero-content .hero-tagline {
@@ -250,8 +264,14 @@ ul {
   align-items: center;
 }
 
+.hero-image {
+  overflow: visible;
+}
+
 .hero-image img {
   width: 100%;
+  transform: scale(1.35);
+  transform-origin: center center;
 }
 
 /* ===== SECTIONS ===== */
@@ -1148,7 +1168,7 @@ ul {
     justify-content: center;
   }
 
-  .hero-content h1 {
+  .hero-content .hero-headline {
     font-size: 2.2rem;
   }
 
@@ -1229,7 +1249,7 @@ ul {
     grid-template-columns: 1fr;
   }
 
-  .hero-content h1 {
+  .hero-content .hero-headline {
     font-size: 1.8rem;
   }
 
@@ -1258,20 +1278,23 @@ ul {
   justify-content: center;
   gap: 0;
   margin-bottom: 40px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .stepper-step {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   background: none;
   border: none;
   cursor: pointer;
   font-family: var(--font-family);
-  padding: 8px 12px;
+  padding: 6px 8px;
   border-radius: 8px;
   transition: background var(--transition);
+  flex-shrink: 0;
 }
 
 .stepper-step:hover {
@@ -1282,13 +1305,13 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: #e2e8f0;
   color: var(--color-text);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   transition: all var(--transition);
 }
 
@@ -1303,7 +1326,7 @@ ul {
 }
 
 .stepper-label {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--color-text-light);
   transition: color var(--transition);
@@ -1318,11 +1341,12 @@ ul {
 }
 
 .stepper-line {
-  width: 40px;
+  width: 20px;
   height: 2px;
   background: #e2e8f0;
-  margin: 0 4px;
+  margin: 0 2px;
   border-radius: 1px;
+  flex-shrink: 0;
 }
 
 .stepper-line.done {
@@ -1335,6 +1359,7 @@ ul {
 
 .stepper-content.active {
   display: block;
+  animation: stepFadeIn 0.35s ease;
 }
 
 .stepper-content h3 {
@@ -1498,6 +1523,196 @@ ul {
 .consent-item u {
   text-decoration-color: #dc2626;
   text-underline-offset: 2px;
+}
+
+/* ===== DOC ID TOGGLE ===== */
+.doc-id-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.doc-id-option {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.doc-id-option:hover {
+  border-color: var(--color-primary);
+  background: var(--color-bg-alt);
+}
+
+.doc-id-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.doc-id-option i {
+  font-size: 1.2rem;
+  color: var(--color-text-light);
+  transition: color var(--transition);
+}
+
+.doc-id-option:has(input:checked) {
+  border-color: var(--color-primary);
+  background: #eff6ff;
+}
+
+.doc-id-option:has(input:checked) i {
+  color: var(--color-primary);
+}
+
+.doc-id-fields {
+  margin-bottom: 16px;
+}
+
+/* ===== PROGRESS BAR ===== */
+.stepper-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.progress-track {
+  flex: 1;
+  max-width: 300px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  width: 20%;
+}
+
+.progress-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  white-space: nowrap;
+}
+
+/* ===== STEP ANIMATION ===== */
+.stepper-content {
+  display: none;
+}
+
+.stepper-content.active {
+  display: block;
+  animation: stepFadeIn 0.35s ease;
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== FIELD VALIDATION ===== */
+.form-group.has-error input,
+.form-group.has-error textarea,
+.form-group.has-error select {
+  border-color: #dc2626;
+}
+
+.form-group.has-error .field-error {
+  display: flex;
+}
+
+.field-error {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+.field-error i {
+  font-size: 0.7rem;
+}
+
+/* ===== FILE SIZE ===== */
+.file-meta {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  margin-top: 2px;
+}
+
+.file-remove {
+  font-size: 0.78rem;
+  color: #dc2626;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  text-decoration: underline;
+  margin-left: 8px;
+}
+
+.file-remove:hover {
+  color: #b91c1c;
+}
+
+/* ===== REVIEW EDIT ===== */
+.review-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-primary-light);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.review-section-header h4 {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.review-edit-btn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity var(--transition);
+}
+
+.review-edit-btn:hover {
+  opacity: 0.7;
 }
 
 /* ===== REVIEW ===== */

@@ -23,7 +23,6 @@
         <a href="index.html">Home</a>
         <a href="sobre.html">Sobre</a>
         <a href="servicos.html">Serviços</a>
-        <a href="maquina-bin.html">Máquina Bin</a>
         <a href="franqueado.html">Seja um Franqueado</a>
         <a href="blog.html">Blog</a>
         <a href="contato.html">Contato</a>
@@ -72,6 +71,11 @@
             <span class="stepper-num">5</span>
             <span class="stepper-label">Revisão</span>
           </button>
+        </div>
+
+        <div class="stepper-progress">
+          <span class="progress-text">Passo <span id="stepNum">1</span> de 5</span>
+          <span class="progress-track"><span class="progress-fill" id="progressFill" style="width:20%;"></span></span>
         </div>
 
         <form id="adesaoForm" class="adesao-form" method="POST" enctype="multipart/form-data" novalidate>
@@ -258,7 +262,7 @@
           <!-- ETAPA 3: Documentos -->
           <div class="stepper-content" data-step="3">
             <h3>Documentos</h3>
-            <p class="step-desc">Anexe os documentos abaixo em formato PDF (limite total de 8 MB). Todos os itens são obrigatórios.</p>
+            <p class="step-desc">Anexe os documentos abaixo em formato PDF (limite total de 8 MB). Itens marcados com * são obrigatórios. Para identificação, envie RG + CPF <strong>ou</strong> apenas CNH (que substitui ambos).</p>
 
             <div class="doc-upload">
               <div class="form-group">
@@ -268,21 +272,47 @@
                   <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="doc_rg">RG do sócio que assinará os documentos *</label>
-                <div class="file-input-wrapper">
-                  <input type="file" id="doc_rg" name="doc_rg" required accept=".pdf" />
-                  <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
+              <div class="doc-id-section">
+                <p class="step-desc" style="margin-bottom:12px;font-size:0.88rem;"><strong>Documentos de identificação do sócio</strong></p>
+                <div class="doc-id-toggle">
+                  <label class="doc-id-option">
+                    <input type="radio" name="id_option" value="rg_cpf" checked />
+                    <i class="fas fa-id-card"></i> RG + CPF
+                  </label>
+                  <label class="doc-id-option">
+                    <input type="radio" name="id_option" value="cnh" />
+                    <i class="fas fa-id-card"></i> CNH <span style="font-weight:400;">(substitui ambos)</span>
+                  </label>
+                </div>
+                <div class="doc-id-fields" data-option="rg_cpf">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="doc_rg">RG</label>
+                      <div class="file-input-wrapper">
+                        <input type="file" id="doc_rg" name="doc_rg" accept=".pdf" />
+                        <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar</span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="doc_cpf">CPF</label>
+                      <div class="file-input-wrapper">
+                        <input type="file" id="doc_cpf" name="doc_cpf" accept=".pdf" />
+                        <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="doc-id-fields" data-option="cnh" style="display:none;">
+                  <div class="form-group">
+                    <label for="doc_cnh">CNH</label>
+                    <div class="file-input-wrapper">
+                      <input type="file" id="doc_cnh" name="doc_cnh" accept=".pdf" />
+                      <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="doc_cpf">CPF do sócio que assinará os documentos *</label>
-                <div class="file-input-wrapper">
-                  <input type="file" id="doc_cpf" name="doc_cpf" required accept=".pdf" />
-                  <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar o arquivo</span>
-                </div>
-              </div>
-              <div class="form-group">
+              <div class="form-group" style="margin-top:16px;">
                 <label for="doc_comprovante_bancario">Comprovante de domicílio bancário da conta em nome da empresa *</label>
                 <div class="file-input-wrapper">
                   <input type="file" id="doc_comprovante_bancario" name="doc_comprovante_bancario" required accept=".pdf" />
@@ -345,7 +375,7 @@
 
               <label class="consent-item">
                 <input type="checkbox" name="consent_comunicacao" value="Autorizo" />
-                <span><strong>Comunicação:</strong> Você autoriza a FOURPAY SOLUTIONS e a Fiserv a utilizar os dados fornecidos para contato, análise de perfil e comunicação sobre o processo de franquia?</span>
+                <span><strong>Comunicação:</strong> Você autoriza a FOURPAY SOLUTIONS e a <span class="text-accent">Fiserv</span> a utilizar os dados fornecidos para contato, análise de perfil e comunicação sobre o processo de franquia?</span>
               </label>
 
               <label class="consent-item">

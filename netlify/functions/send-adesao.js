@@ -65,6 +65,7 @@ exports.handler = async (event) => {
       { field: 'doc_contrato_social', label: 'Contrato Social / Cartão CNPJ' },
       { field: 'doc_rg', label: 'RG do sócio' },
       { field: 'doc_cpf', label: 'CPF do sócio' },
+      { field: 'doc_cnh', label: 'CNH (substitui RG/CPF)' },
       { field: 'doc_comprovante_bancario', label: 'Comprovante bancário' },
     ];
 
@@ -72,9 +73,9 @@ exports.handler = async (event) => {
       const file = files.find(ff => ff.field === f.field);
       if (file && file.buffer.length > 0) {
         attachments.push({ filename: file.name, content: file.buffer });
-        fileListItems.push(`<li><strong>${f.label}:</strong> ${file.name}</li>`);
+        fileListItems.push(`<tr><td style="padding:3px 6px;border-bottom:1px solid #f1f5f9;color:#059669;width:20px;">\ud83d\udcc4</td><td style="padding:3px 6px;border-bottom:1px solid #f1f5f9;color:#0f172a;"><strong>${f.label}:</strong> ${file.name}</td></tr>`);
       } else {
-        fileListItems.push(`<li><strong>${f.label}:</strong> <em>Não anexado</em></li>`);
+        fileListItems.push(`<tr><td style="padding:3px 6px;border-bottom:1px solid #f1f5f9;color:#dc2626;width:20px;">\u274c</td><td style="padding:3px 6px;border-bottom:1px solid #f1f5f9;color:#94a3b8;"><strong>${f.label}:</strong> <em>Não anexado</em></td></tr>`);
       }
     }
 
@@ -95,68 +96,105 @@ exports.handler = async (event) => {
       const answer = fields[c.field] || 'Não consentido';
       const color = answered ? '#059669' : '#dc2626';
       const icon = answered ? '\u2705' : '\u274c';
-      return `<tr><td colspan="2" style="padding:4px 6px; border-bottom:1px solid #f1f5f9;">
-        <div style="color:${color}">${icon} <strong>${c.label}</strong></div>
-        <div style="color:#475569; font-size:0.82rem; margin:2px 0 0 22px;">${c.question}</div>
-        <div style="color:${color}; font-weight:600; font-size:0.85rem; margin:2px 0 0 22px;">Resposta: ${answer}</div>
+      return `<tr><td style="padding:5px 6px;border-bottom:1px solid #f1f5f9;">
+        <div style="color:${color};font-weight:700;">${icon} ${c.label}</div>
+        <div style="color:#475569;font-size:0.82rem;margin:2px 0 0 16px;line-height:1.35;">${c.question}</div>
+        <div style="color:${color};font-weight:600;font-size:0.82rem;margin:2px 0 0 16px;">Resposta: ${answer}</div>
       </td></tr>`;
     }).join('');
 
-    function objRow(label, value) {
-      return `<tr><td style="padding:2px 6px; font-weight:600; color:#475569; white-space:nowrap; border-bottom:1px solid #f1f5f9; font-size:0.85rem;">${label}</td><td style="padding:2px 6px; border-bottom:1px solid #f1f5f9; font-size:0.85rem;">${value}</td></tr>`;
+    function row(label, value) {
+      const v = value || '\u2014';
+      return `<tr><td style="padding:3px 6px;font-weight:600;color:#64748b;border-bottom:1px solid #f1f5f9;width:130px;">${label}</td><td style="padding:3px 6px;font-weight:600;color:#0f172a;border-bottom:1px solid #f1f5f9;">${v}</td></tr>`;
     }
 
     const html = `
-      <div style="font-family: Inter, Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: #1d4ed8; color: white; padding: 24px; border-radius: 12px 12px 0 0;">
-          <h1 style="margin: 0; font-size: 1.3rem;">\ud83d\udccb Nova Ades\u00e3o \u2014 Franqueado BIN</h1>
-          <p style="margin: 4px 0 0; opacity: 0.9;">${razaoSocial}</p>
-        </div>
-        <div style="padding: 24px; background: #fff; border: 1px solid #e2e8f0;">
-          <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Dados da Empresa</h2>
-          <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:16px;">
-            ${objRow('Raz\u00e3o Social', fields.razao_social || '\u2014')}
-            ${objRow('CNPJ', fields.cnpj || '\u2014')}
-            ${objRow('CEP', fields.cep || '\u2014')}
-            ${objRow('Endere\u00e7o', fields.endereco_empresa || '\u2014')}
-            ${objRow('Bairro', fields.bairro || '\u2014')}
-            ${objRow('Cidade', fields.cidade || '\u2014')}
-            ${objRow('Estado', fields.estado || '\u2014')}
-            ${objRow('Pa\u00eds', fields.pais || '\u2014')}
-            ${objRow('Banco', fields.banco || '\u2014')}
-            ${objRow('Ag\u00eancia', fields.agencia || '\u2014')}
-            ${objRow('Conta corrente', fields.conta_corrente || '\u2014')}
-            ${objRow('Regi\u00e3o', fields.regiao || '\u2014')}
-            ${objRow('Trajet\u00f3ria', fields.trajetoria || '\u2014')}
-          </table>
-          <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Dados do S\u00f3cio Operador</h2>
-          <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:16px;">
-            ${objRow('Nome completo', fields.nome_socio || '\u2014')}
-            ${objRow('Nacionalidade', fields.nacionalidade || '\u2014')}
-            ${objRow('RG', fields.rg || '\u2014')}
-            ${objRow('CPF', fields.cpf || '\u2014')}
-            ${objRow('Estado civil', fields.estado_civil || '\u2014')}
-            ${objRow('Profiss\u00e3o', fields.profissao || '\u2014')}
-            ${objRow('Telefone', fields.telefone || '\u2014')}
-            ${objRow('E-mail', fields.email_socio || '\u2014')}
-            ${objRow('CEP', fields.cep_socio || '\u2014')}
-            ${objRow('Endere\u00e7o', fields.endereco_socio || '\u2014')}
-            ${objRow('Bairro', fields.bairro_socio || '\u2014')}
-            ${objRow('Cidade', fields.cidade_socio || '\u2014')}
-            ${objRow('Estado', fields.estado_socio || '\u2014')}
-            ${objRow('Pa\u00eds', fields.pais_socio || '\u2014')}
-            ${objRow('Uniforme', fields.tamanho_uniforme || '\u2014')}
-          </table>
-          <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Documentos Anexados</h2>
-          <ul style="font-size:0.85rem; margin-bottom:16px; padding-left:20px;">${fileListItems.join('')}</ul>
-          <h2 style="font-size: 1rem; color: #1d4ed8; margin: 0 0 12px;">Consentimentos</h2>
-          <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">${consentItems}</table>
-        </div>
-        <div style="background: #f8fafc; padding: 16px; text-align: center; font-size: 0.8rem; color: #94a3b8; border-radius: 0 0 12px 12px; border: 1px solid #e2e8f0; border-top: 0;">
-          FOURPAY SOLUTIONS \u2014 Master Franqueado Fiserv
-        </div>
-      </div>
-    `;
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#e2e8f0;padding:40px 20px;font-family:Inter,Arial,Helvetica,sans-serif;">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;">
+        <tr>
+          <td style="background-color:#1d4ed8;padding:24px 28px;color:#ffffff;">
+            <span style="font-size:1.25rem;font-weight:700;">\ud83d\udccb Nova Ades\u00e3o \u2014 Franqueado BIN</span><br>
+            <span style="font-size:0.88rem;opacity:0.85;">${razaoSocial}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:20px 28px 16px;">
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom:8px;">
+              <tr><td style="font-size:0.85rem;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:4px;border-bottom:2px solid #dbeafe;" colspan="2">\ud83c\udfe2 Dados da Empresa</td></tr>
+            </table>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:0.85rem;">
+              ${row('Raz\u00e3o Social', fields.razao_social)}
+              ${row('CNPJ', fields.cnpj)}
+              ${row('CEP', fields.cep)}
+              ${row('Endere\u00e7o', fields.endereco_empresa)}
+              ${row('Bairro', fields.bairro)}
+              ${row('Cidade', fields.cidade)}
+              ${row('Estado', fields.estado)}
+              ${row('Pa\u00eds', fields.pais)}
+              ${row('Banco', fields.banco)}
+              ${row('Ag\u00eancia', fields.agencia)}
+              ${row('Conta corrente', fields.conta_corrente)}
+              ${row('Regi\u00e3o', fields.regiao)}
+              ${row('Trajet\u00f3ria', fields.trajetoria)}
+            </table>
+
+            <div style="height:20px;font-size:1px;">&nbsp;</div>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom:8px;">
+              <tr><td style="font-size:0.85rem;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:4px;border-bottom:2px solid #dbeafe;" colspan="2">\ud83d\udc64 Dados do S\u00f3cio Operador</td></tr>
+            </table>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:0.85rem;">
+              ${row('Nome completo', fields.nome_socio)}
+              ${row('Nacionalidade', fields.nacionalidade)}
+              ${row('RG', fields.rg)}
+              ${row('CPF', fields.cpf)}
+              ${row('Estado civil', fields.estado_civil)}
+              ${row('Profiss\u00e3o', fields.profissao)}
+              ${row('Telefone', fields.telefone)}
+              ${row('E-mail', fields.email_socio)}
+              ${row('CEP', fields.cep_socio)}
+              ${row('Endere\u00e7o', fields.endereco_socio)}
+              ${row('Bairro', fields.bairro_socio)}
+              ${row('Cidade', fields.cidade_socio)}
+              ${row('Estado', fields.estado_socio)}
+              ${row('Pa\u00eds', fields.pais_socio)}
+              ${row('Uniforme', fields.tamanho_uniforme)}
+            </table>
+
+            <div style="height:20px;font-size:1px;">&nbsp;</div>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom:8px;">
+              <tr><td style="font-size:0.85rem;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:4px;border-bottom:2px solid #dbeafe;" colspan="2">\ud83d\udcce Documentos Anexados</td></tr>
+            </table>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:0.85rem;">
+              ${fileListItems.join('')}
+            </table>
+
+            <div style="height:20px;font-size:1px;">&nbsp;</div>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom:8px;">
+              <tr><td style="font-size:0.85rem;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:4px;border-bottom:2px solid #dbeafe;" colspan="2">\u2705 Consentimentos</td></tr>
+            </table>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:0.85rem;">
+              ${consentItems}
+            </table>
+
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#f8fafc;padding:14px 28px;text-align:center;font-size:0.78rem;color:#94a3b8;border-top:1px solid #e2e8f0;">
+            FOURPAY SOLUTIONS \u2014 Master Franqueado Fiserv<br>
+            <span style="font-size:0.75rem;">Este \u00e9 um e-mail autom\u00e1tico. N\u00e3o responda a esta mensagem.</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+`;
 
     console.log('>>> HTML do email gerado');
     console.log('>>> Conectando ao SMTP Gmail...');
