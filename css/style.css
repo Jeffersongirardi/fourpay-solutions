@@ -1681,6 +1681,20 @@ ul {
   color: #b91c1c;
 }
 
+/* ===== FILE ERROR ===== */
+.file-error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+.file-error i {
+  font-size: 0.7rem;
+}
+
 /* ===== REVIEW EDIT ===== */
 .review-section-header {
   display: flex;

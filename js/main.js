@@ -101,8 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.mask-rg').forEach(input => {
       input.addEventListener('input', function () {
-        let val = this.value.replace(/\D/g, '');
-        val = val.replace(/^(\d{2})(\d{3})(\d{3})(\d)/, '$1.$2.$3-$4');
+        let val = this.value.replace(/[^0-9Xx]/g, '').toUpperCase();
+        val = val.replace(/X(?=.)/g, '');
+        val = val.replace(/^(\d{2})(\d{3})(\d{3})([\dX])/, '$1.$2.$3-$4');
         this.value = val.substring(0, 13);
       });
     });
@@ -118,14 +119,73 @@ document.addEventListener('DOMContentLoaded', () => {
   applyMasks();
   initBlurValidation();
 
-  // ===== File input display =====
+  // ===== File input display + validation =====
+  var MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB per file
+  var MAX_TOTAL_SIZE = 5 * 1024 * 1024; // 5 MB total
+
+  function showFileError(wrapper, msg) {
+    var err = wrapper.querySelector('.file-error');
+    if (!err) {
+      err = document.createElement('div');
+      err.className = 'file-error';
+      wrapper.appendChild(err);
+    }
+    err.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + msg;
+    wrapper.classList.remove('has-file');
+    wrapper.style.borderColor = '#dc2626';
+    var placeholder = wrapper.querySelector('.file-placeholder');
+    if (placeholder) placeholder.innerHTML = '<i class="fas fa-upload"></i> Clique para selecionar';
+  }
+
+  function clearFileError(wrapper) {
+    if (!wrapper) return;
+    var err = wrapper.querySelector('.file-error');
+    if (err) err.remove();
+    wrapper.style.borderColor = '';
+  }
+
+  function getTotalFileSize() {
+    var total = 0;
+    document.querySelectorAll('.file-input-wrapper input[type="file"]').forEach(function (inp) {
+      if (!inp.disabled && inp.files.length) total += inp.files[0].size;
+    });
+    return total;
+  }
+
   function initFileInputs() {
     document.querySelectorAll('.file-input-wrapper input[type="file"]').forEach(input => {
       input.addEventListener('change', function () {
         const wrapper = this.closest('.file-input-wrapper');
         const placeholder = wrapper.querySelector('.file-placeholder');
+        var group = wrapper.closest('.form-group');
+
+        clearFieldError(group);
+        clearFileError(wrapper);
+
         if (this.files.length) {
           const f = this.files[0];
+
+          if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) {
+            showFileError(wrapper, 'Apenas arquivos PDF são aceitos.');
+            this.value = '';
+            return;
+          }
+
+          if (f.size > MAX_FILE_SIZE) {
+            var sizeMB = (f.size / (1024 * 1024)).toFixed(1);
+            showFileError(wrapper, 'Arquivo muito grande (' + sizeMB + ' MB). O limite é de 2 MB por arquivo.');
+            this.value = '';
+            return;
+          }
+
+          var totalSize = getTotalFileSize();
+          if (totalSize > MAX_TOTAL_SIZE) {
+            var totalMB = (totalSize / (1024 * 1024)).toFixed(1);
+            showFileError(wrapper, 'O total dos anexos excede 5 MB (' + totalMB + ' MB). Reduza o tamanho dos arquivos.');
+            this.value = '';
+            return;
+          }
+
           const size = f.size < 1048576 ? (f.size / 1024).toFixed(1) + ' KB' : (f.size / 1048576).toFixed(1) + ' MB';
           placeholder.innerHTML = '<i class="fas fa-file-pdf"></i> ' + f.name + ' <span class="file-meta">(' + size + ')</span>';
           wrapper.classList.add('has-file');
@@ -142,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
               wrapper.classList.remove('has-file');
               wrapper.style.borderColor = '';
               rmBtn.remove();
+              clearFileError(wrapper);
             });
             wrapper.appendChild(rmBtn);
           }
@@ -151,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
           var rmBtn = wrapper.querySelector('.file-remove');
           if (rmBtn) rmBtn.remove();
         }
-        clearFieldError(wrapper.closest('.form-group'));
       });
     });
   }
@@ -205,11 +265,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!radios.length) return;
     radios.forEach(function (r) {
       r.addEventListener('change', function () {
+        var selected = this.value;
         document.querySelectorAll('.doc-id-fields').forEach(function (el) {
-          el.style.display = el.getAttribute('data-option') === this.value ? '' : 'none';
-        }.bind(this));
+          var isOption = el.getAttribute('data-option') === selected;
+          el.style.display = isOption ? '' : 'none';
+          el.querySelectorAll('input[type="file"]').forEach(function (inp) {
+            if (isOption) {
+              inp.disabled = false;
+            } else {
+              inp.value = '';
+              inp.disabled = true;
+              var wrapper = inp.closest('.file-input-wrapper');
+              if (wrapper) {
+                wrapper.classList.remove('has-file');
+                wrapper.style.borderColor = '';
+                var ph = wrapper.querySelector('.file-placeholder');
+                if (ph) ph.innerHTML = '<i class="fas fa-upload"></i> Clique para selecionar';
+                var rm = wrapper.querySelector('.file-remove');
+                if (rm) rm.remove();
+                clearFileError(wrapper);
+              }
+            }
+          });
+        });
       });
     });
+    var checkedRadio = document.querySelector('.doc-id-option input[name="id_option"]:checked');
+    if (checkedRadio) {
+      document.querySelectorAll('.doc-id-fields').forEach(function (el) {
+        var isOption = el.getAttribute('data-option') === checkedRadio.value;
+        el.style.display = isOption ? '' : 'none';
+        el.querySelectorAll('input[type="file"]').forEach(function (inp) {
+          inp.disabled = !isOption;
+        });
+      });
+    }
   }
   initDocIdToggle();
 
@@ -319,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var valid = true;
 
       requiredFields.forEach(function (field) {
+        if (field.disabled) return;
         if (field.type === 'file') {
           if (!field.files.length) {
             valid = false;
@@ -463,9 +554,14 @@ document.addEventListener('DOMContentLoaded', () => {
       html += '<div class="review-section">' + sectionHeader('Documentos', 3);
       html += '<div class="review-documents">';
       html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> Contrato social / Cartão CNPJ: ' + (getVal('doc_contrato_social') || 'Não anexado') + '</div>';
-      html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> RG do sócio: ' + (getVal('doc_rg') || 'Não anexado') + '</div>';
-      html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> CPF do sócio: ' + (getVal('doc_cpf') || 'Não anexado') + '</div>';
-      html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> CNH: ' + (getVal('doc_cnh') || 'Não anexado') + '</div>';
+      var idOpt = form.querySelector('input[name="id_option"]:checked');
+      var idVal = idOpt ? idOpt.value : 'rg_cpf';
+      if (idVal === 'rg_cpf') {
+        html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> RG do sócio: ' + (getVal('doc_rg') || 'Não anexado') + '</div>';
+        html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> CPF do sócio: ' + (getVal('doc_cpf') || 'Não anexado') + '</div>';
+      } else {
+        html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> CNH: ' + (getVal('doc_cnh') || 'Não anexado') + '</div>';
+      }
       html += '<div class="review-doc-item"><i class="fas fa-file-pdf"></i> Comprovante bancário: ' + (getVal('doc_comprovante_bancario') || 'Não anexado') + '</div>';
       html += '</div></div>';
 
@@ -528,14 +624,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       initFileInputs();
       initConsentList();
-      if (saved['_step'] && saved['_step'] > 1) showStep(parseInt(saved['_step']));
+      var restoredRadio = form.querySelector('input[name="id_option"]:checked');
+      if (restoredRadio) restoredRadio.dispatchEvent(new Event('change'));
+      if (saved['_step'] && saved['_step'] > 1 && saved['_step'] < 5) showStep(parseInt(saved['_step']));
     }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!validateStep(4)) {
-        showStep(4);
-        return;
+
+      for (var i = 1; i <= 4; i++) {
+        if (!validateStep(i)) {
+          showStep(i);
+          return;
+        }
       }
 
       var btn = form.querySelector('.btn-submit');
@@ -544,11 +645,29 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
       }
 
+      errorEl.classList.remove('show');
+
       var formData = new FormData(form);
       fetch('/.netlify/functions/send-adesao', {
         method: 'POST',
         body: formData
-      }).then(function () {
+      }).then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok && data.ok, message: data.message };
+        }).catch(function () {
+          return { ok: false, message: 'Falha de conexão com o servidor.' };
+        });
+      }).then(function (result) {
+        if (!result.ok) {
+          var msgEl = errorEl.querySelector('.error-text');
+          if (msgEl) msgEl.textContent = result.message || 'Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.';
+          errorEl.classList.add('show');
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Enviar Adesão <i class="fas fa-paper-plane"></i>';
+          }
+          return;
+        }
         var fields = form.querySelector('.stepper-content.active');
         if (fields) fields.style.display = 'none';
         document.querySelector('.stepper-nav').style.display = 'none';
@@ -556,12 +675,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pb) pb.style.display = 'none';
         success.classList.add('show');
         try { localStorage.removeItem('adesaoForm'); } catch (e) {}
-      }).catch(function () {
-        errorEl.classList.add('show');
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = 'Enviar Adesão <i class="fas fa-paper-plane"></i>';
-        }
       });
     });
   }

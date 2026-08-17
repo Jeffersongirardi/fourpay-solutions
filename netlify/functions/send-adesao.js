@@ -24,6 +24,14 @@ exports.handler = async (event) => {
     console.log('>>> Content-Type:', contentType);
     console.log('>>> Body length:', body.length);
 
+    if (body.length > 10 * 1024 * 1024) {
+      return {
+        statusCode: 413,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, message: 'Conteúdo muito grande (máximo 5 MB total).' }),
+      };
+    }
+
     const fields = {};
     const files = [];
 
@@ -56,18 +64,97 @@ exports.handler = async (event) => {
     console.log('>>> Campos recebidos:', Object.keys(fields).length);
     console.log('>>> Arquivos recebidos:', files.length);
 
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+    const MAX_TOTAL_SIZE = 5 * 1024 * 1024;
+
+    for (const file of files) {
+      if (file.buffer.length === 0) continue;
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ok: false, message: 'Apenas arquivos PDF são aceitos.' }),
+        };
+      }
+      if (file.buffer.length > MAX_FILE_SIZE) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ok: false, message: 'Arquivo excede 2 MB.' }),
+        };
+      }
+    }
+
+    var totalSize = files.reduce(function (sum, f) { return sum + f.buffer.length; }, 0);
+    if (totalSize > MAX_TOTAL_SIZE) {
+      return {
+        statusCode: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, message: 'Total dos anexos excede 5 MB.' }),
+      };
+    }
+
+    var requiredFields = ['razao_social', 'cnpj', 'cep', 'endereco_empresa', 'bairro', 'cidade', 'estado', 'banco', 'agencia', 'conta_corrente', 'regiao', 'nome_socio', 'nacionalidade', 'rg', 'cpf', 'estado_civil', 'profissao', 'telefone', 'email_socio', 'cep_socio', 'endereco_socio', 'bairro_socio', 'cidade_socio', 'estado_socio', 'tamanho_uniforme'];
+    var missing = requiredFields.filter(function (f) { return !fields[f] || !String(fields[f]).trim(); });
+    if (missing.length > 0) {
+      console.log('>>> Campos obrigatórios faltando:', missing.join(', '));
+      return {
+        statusCode: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, message: 'Campos obrigatórios não preenchidos.' }),
+      };
+    }
+
+    var consentRequired = ['consent_dedicacao', 'consent_perfil_comercial', 'consent_relacionamento', 'consent_investimento', 'consent_territorialidade', 'consent_capacitacao', 'consent_veracidade', 'consent_comunicacao', 'consent_assinatura_digital'];
+    var missingConsents = consentRequired.filter(function (c) { return !fields[c]; });
+    if (missingConsents.length > 0) {
+      console.log('>>> Consentimentos faltando:', missingConsents.join(', '));
+      return {
+        statusCode: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, message: 'Todos os consentimentos devem ser marcados.' }),
+      };
+    }
+
+    var requiredDocs = ['doc_contrato_social', 'doc_comprovante_bancario'];
+    var idOption = fields.id_option || 'rg_cpf';
+    if (idOption === 'rg_cpf') {
+      var hasRG = files.some(function (f) { return f.field === 'doc_rg' && f.buffer.length > 0; });
+      var hasCPF = files.some(function (f) { return f.field === 'doc_cpf' && f.buffer.length > 0; });
+      if (!hasRG && !hasCPF) requiredDocs.push('doc_rg');
+    } else {
+      requiredDocs.push('doc_cnh');
+    }
+    var missingDocs = requiredDocs.filter(function (d) {
+      return !files.some(function (f) { return f.field === d && f.buffer.length > 0; });
+    });
+    if (missingDocs.length > 0) {
+      console.log('>>> Documentos faltando:', missingDocs.join(', '));
+      return {
+        statusCode: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, message: 'Documentos obrigatórios não anexados.' }),
+      };
+    }
+
     const razaoSocial = fields.razao_social || '—';
 
     const attachments = [];
     const fileListItems = [];
 
-    const fileMapping = [
+    let fileMapping = [
       { field: 'doc_contrato_social', label: 'Contrato Social / Cartão CNPJ' },
       { field: 'doc_rg', label: 'RG do sócio' },
       { field: 'doc_cpf', label: 'CPF do sócio' },
       { field: 'doc_cnh', label: 'CNH (substitui RG/CPF)' },
       { field: 'doc_comprovante_bancario', label: 'Comprovante bancário' },
     ];
+
+    if (idOption === 'rg_cpf') {
+      fileMapping = fileMapping.filter(function (f) { return f.field !== 'doc_cnh'; });
+    } else {
+      fileMapping = fileMapping.filter(function (f) { return f.field !== 'doc_rg' && f.field !== 'doc_cpf'; });
+    }
 
     for (const f of fileMapping) {
       const file = files.find(ff => ff.field === f.field);
@@ -228,8 +315,8 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'text/plain' },
-      body: 'OK',
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: true, message: 'Adesão enviada com sucesso.' }),
     };
   } catch (error) {
     console.error('>>> ERRO CAPTURADO:');
@@ -239,8 +326,8 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'text/plain' },
-      body: error.message || 'Erro desconhecido',
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, message: 'Erro ao processar envio.' }),
     };
   }
 };

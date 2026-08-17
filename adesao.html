@@ -86,7 +86,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="razao_social">Razão Social *</label>
-                <input type="text" id="razao_social" name="razao_social" required placeholder="Nome completo da empresa" />
+                <input type="text" id="razao_social" name="razao_social" required maxlength="150" placeholder="Nome completo da empresa" />
               </div>
               <div class="form-group">
                 <label for="cnpj">CNPJ *</label>
@@ -100,17 +100,17 @@
               </div>
               <div class="form-group">
                 <label for="endereco_empresa">Endereço *</label>
-                <input type="text" id="endereco_empresa" name="endereco_empresa" required placeholder="Logradouro, nº, complemento" />
+                <input type="text" id="endereco_empresa" name="endereco_empresa" required maxlength="200" placeholder="Logradouro, nº, complemento" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="bairro">Bairro *</label>
-                <input type="text" id="bairro" name="bairro" required placeholder="Bairro" />
+                <input type="text" id="bairro" name="bairro" required maxlength="80" placeholder="Bairro" />
               </div>
               <div class="form-group">
                 <label for="cidade">Cidade *</label>
-                <input type="text" id="cidade" name="cidade" required placeholder="Cidade" />
+                <input type="text" id="cidade" name="cidade" required maxlength="80" placeholder="Cidade" />
               </div>
             </div>
             <div class="form-row">
@@ -131,24 +131,24 @@
             <div class="form-row three-col">
               <div class="form-group">
                 <label for="banco">Banco *</label>
-                <input type="text" id="banco" name="banco" required placeholder="Ex: Banco do Brasil" />
+                <input type="text" id="banco" name="banco" required maxlength="60" placeholder="Ex: Banco do Brasil" />
               </div>
               <div class="form-group">
                 <label for="agencia">Agência *</label>
-                <input type="text" id="agencia" name="agencia" required placeholder="Número da agência" />
+                <input type="text" id="agencia" name="agencia" required maxlength="10" placeholder="Número da agência" />
               </div>
               <div class="form-group">
                 <label for="conta_corrente">Conta corrente *</label>
-                <input type="text" id="conta_corrente" name="conta_corrente" required placeholder="Número da conta" />
+                <input type="text" id="conta_corrente" name="conta_corrente" required maxlength="15" placeholder="Número da conta" />
               </div>
             </div>
             <div class="form-group">
               <label for="regiao">Região de interesse *</label>
-              <input type="text" id="regiao" name="regiao" required placeholder="Descreva a região de interesse" />
+              <input type="text" id="regiao" name="regiao" required maxlength="200" placeholder="Descreva a região de interesse" />
             </div>
             <div class="form-group">
               <label for="trajetoria">Trajetória na adquirência / setor comercial</label>
-              <textarea id="trajetoria" name="trajetoria" rows="4" placeholder="Descreva rapidamente sua trajetória na adquirência ou setor comercial, se houver"></textarea>
+              <textarea id="trajetoria" name="trajetoria" rows="4" maxlength="1000" placeholder="Descreva rapidamente sua trajetória na adquirência ou setor comercial, se houver"></textarea>
             </div>
             <div class="stepper-buttons">
               <span></span>
@@ -162,11 +162,11 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="nome_socio">Nome completo *</label>
-                <input type="text" id="nome_socio" name="nome_socio" required />
+                <input type="text" id="nome_socio" name="nome_socio" required maxlength="120" />
               </div>
               <div class="form-group">
                 <label for="nacionalidade">Nacionalidade *</label>
-                <input type="text" id="nacionalidade" name="nacionalidade" required placeholder="Ex: Brasileiro(a)" />
+                <input type="text" id="nacionalidade" name="nacionalidade" required maxlength="40" placeholder="Ex: Brasileiro(a)" />
               </div>
             </div>
             <div class="form-row">
@@ -193,7 +193,7 @@
               </div>
               <div class="form-group">
                 <label for="profissao">Profissão *</label>
-                <input type="text" id="profissao" name="profissao" required />
+                <input type="text" id="profissao" name="profissao" required maxlength="80" />
               </div>
             </div>
             <div class="form-row">
@@ -213,17 +213,17 @@
               </div>
               <div class="form-group">
                 <label for="endereco_socio">Endereço *</label>
-                <input type="text" id="endereco_socio" name="endereco_socio" required placeholder="Logradouro, nº, complemento" />
+                <input type="text" id="endereco_socio" name="endereco_socio" required maxlength="200" placeholder="Logradouro, nº, complemento" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="bairro_socio">Bairro *</label>
-                <input type="text" id="bairro_socio" name="bairro_socio" required placeholder="Bairro" />
+                <input type="text" id="bairro_socio" name="bairro_socio" required maxlength="80" placeholder="Bairro" />
               </div>
               <div class="form-group">
                 <label for="cidade_socio">Cidade *</label>
-                <input type="text" id="cidade_socio" name="cidade_socio" required placeholder="Cidade" />
+                <input type="text" id="cidade_socio" name="cidade_socio" required maxlength="80" placeholder="Cidade" />
               </div>
             </div>
             <div class="form-row">
@@ -262,7 +262,7 @@
           <!-- ETAPA 3: Documentos -->
           <div class="stepper-content" data-step="3">
             <h3>Documentos</h3>
-            <p class="step-desc">Anexe os documentos abaixo em formato PDF (limite total de 8 MB). Itens marcados com * são obrigatórios. Para identificação, envie RG + CPF <strong>ou</strong> apenas CNH (que substitui ambos).</p>
+            <p class="step-desc">Anexe os documentos abaixo em formato PDF (limite de 2 MB por arquivo e 5 MB no total). Itens marcados com * são obrigatórios. Para identificação, envie RG + CPF <strong>ou</strong> apenas CNH (que substitui ambos).</p>
 
             <div class="doc-upload">
               <div class="form-group">
@@ -409,7 +409,7 @@
             <i class="fas fa-check-circle"></i> Adesão enviada com sucesso! Recebemos sua documentação. Em até 48 horas úteis entraremos em contato.
           </div>
           <div class="form-error" id="adesaoError">
-            <i class="fas fa-exclamation-circle"></i> Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.
+            <i class="fas fa-exclamation-circle"></i> <span class="error-text">Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.</span>
           </div>
         </form>
 
