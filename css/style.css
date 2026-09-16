@@ -1913,10 +1913,6 @@ body.medprev-page { color-scheme: light; background: #fff; }
 .brandbar .logo img { height: 40px; width: auto; }
 /* Pílula branca: mantém o logo escuro legível mesmo com night mode forçado */
 .brandbar .logo, .footer-slim .footer-brand .logo { background: #fff; border-radius: 12px; padding: 6px 14px; display: inline-flex; align-items: center; border: 1px solid #eef2f7; }
-/* No modo escuro a logo clara dispensa a pílula branca */
-@media (prefers-color-scheme: dark) {
-  .brandbar .logo, .footer-slim .footer-brand .logo { background: transparent; border-color: transparent; }
-}
 .footer-slim .container { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
 .footer-slim .footer-brand { display: flex; flex-direction: column; align-items: center; }
 .footer-slim .footer-bottom { border: none; padding-top: 0; }
