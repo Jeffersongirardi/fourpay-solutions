@@ -1904,14 +1904,16 @@ ul {
 }
 
 /* ===== MEDPREV (adesao-medprev.html) ===== */
+/* Trava tema claro: impede o navegador de escurecer a página sozinho */
 .medprev-hero .badge-region { justify-content: center; margin-bottom: 14px; }
+.medprev-hero .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 .brandbar { background: #fff; border-bottom: 1px solid #eef2f7; box-shadow: 0 2px 12px rgba(15,23,42,.05); }
+body.medprev-page { color-scheme: light; background: #fff; }
 .brandbar .container { display: flex; justify-content: center; padding-top: 12px; padding-bottom: 12px; }
 .brandbar .logo img { height: 40px; width: auto; }
 .footer-slim .container { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
 .footer-slim .footer-brand { display: flex; flex-direction: column; align-items: center; }
 .footer-slim .footer-bottom { border: none; padding-top: 0; }
-.medprev-hero .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 .medprev-showcase { padding-top: 10px; padding-bottom: 0; }
 .medprev-showcase .showcase-stage { background: linear-gradient(160deg, #eff6ff 0%, #dbeafe 55%, #bfdbfe 100%); border-radius: 24px; padding: 40px 24px 24px; position: relative; overflow: hidden; }
 .medprev-showcase .showcase-stage::before { content: ''; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.7), transparent 65%); top: -140px; right: -100px; pointer-events: none; }
