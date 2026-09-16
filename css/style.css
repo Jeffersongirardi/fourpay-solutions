@@ -1905,6 +1905,12 @@ ul {
 
 /* ===== MEDPREV (adesao-medprev.html) ===== */
 .medprev-hero .badge-region { justify-content: center; margin-bottom: 14px; }
+.brandbar { background: #fff; border-bottom: 1px solid #eef2f7; box-shadow: 0 2px 12px rgba(15,23,42,.05); }
+.brandbar .container { display: flex; justify-content: center; padding-top: 12px; padding-bottom: 12px; }
+.brandbar .logo img { height: 40px; width: auto; }
+.footer-slim .container { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+.footer-slim .footer-brand { display: flex; flex-direction: column; align-items: center; }
+.footer-slim .footer-bottom { border: none; padding-top: 0; }
 .medprev-hero .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 .medprev-showcase { padding-top: 10px; padding-bottom: 0; }
 .medprev-showcase .showcase-stage { background: linear-gradient(160deg, #eff6ff 0%, #dbeafe 55%, #bfdbfe 100%); border-radius: 24px; padding: 40px 24px 24px; position: relative; overflow: hidden; }
@@ -1990,9 +1996,37 @@ ul {
 .qty-stepper { display: flex; align-items: center; gap: 0; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; max-width: 180px; }
 .qty-label { display: flex; align-items: center; gap: 8px; }
 .qty-thumb { width: 72px; height: auto; border-radius: 8px; }
+.plan-resumo { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 12px 16px; font-size: .92rem; font-weight: 700; color: var(--color-dark); }
+.plan-resumo a { font-size: .82rem; font-weight: 600; color: var(--color-primary); }
+.oport-box { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px 16px; margin-top: 10px; font-size: .88rem; color: #14532d; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; animation: planoFade .3s ease; }
+.oport-box[hidden] { display: none; }
+.oport-box .btn { align-self: stretch; justify-content: center; }
 .qty-stepper button { width: 42px; height: 42px; border: none; background: #f1f5f9; font-size: 1.2rem; cursor: pointer; }
 .qty-stepper input { flex: 1; text-align: center; border: none; font-weight: 800; height: 42px; }
 .btn-sm { padding: 8px 14px; font-size: .85rem; }
+/* ===== MEDPREV FORM refinado (só #adesao-medprev) ===== */
+#adesao-medprev .adesao-form { padding: 44px; border-radius: 20px; box-shadow: 0 12px 40px rgba(15,23,42,.08); }
+#adesao-medprev .stepper-content h3 { font-size: 1.35rem; letter-spacing: -.01em; margin-bottom: 4px; }
+#adesao-medprev .stepper-content > .step-desc:first-of-type { margin-bottom: 20px; }
+.form-subsec { display: flex; align-items: center; gap: 10px; font-size: .92rem; font-weight: 800; color: var(--color-dark); margin: 26px 0 14px; padding-bottom: 10px; border-bottom: 1px solid #eef2f7; }
+.form-subsec:first-of-type { margin-top: 6px; }
+.form-subsec i { color: var(--color-primary); width: 30px; height: 30px; border-radius: 9px; background: #eff6ff; display: inline-flex; align-items: center; justify-content: center; font-size: .85rem; flex-shrink: 0; }
+#adesao-medprev .form-group label { font-size: .87rem; }
+#adesao-medprev .form-group input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+#adesao-medprev .form-group select,
+#adesao-medprev .form-group textarea { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; min-height: 48px; font-size: .95rem; }
+#adesao-medprev .form-group input:hover,
+#adesao-medprev .form-group select:hover { border-color: #b6c2d6; }
+#adesao-medprev .form-group input:focus,
+#adesao-medprev .form-group select:focus { background: #fff; border-color: var(--color-primary); box-shadow: 0 0 0 4px rgba(29,78,216,.1); }
+#adesao-medprev .file-input-wrapper { border: 2px dashed #cbd5e1; border-radius: 14px; padding: 20px 16px; background: #f8fafc; text-align: center; transition: border-color .2s, background .2s; }
+#adesao-medprev .file-input-wrapper:hover { border-color: var(--color-primary); background: #eff6ff; }
+#adesao-medprev .file-input-wrapper.has-file { border-style: solid; border-color: var(--color-success); background: #ecfdf5; }
+#adesao-medprev .consent-item { border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; background: #fff; transition: border-color .2s, background .2s; }
+#adesao-medprev .consent-item.has-checked { border-color: var(--color-success); background: #f0fdf4; }
+#adesao-medprev .socio-card { border-radius: 16px; box-shadow: 0 4px 14px rgba(15,23,42,.05); }
+#adesao-medprev .horario-row { border-radius: 12px; }
+#adesao-medprev .stepper-buttons .btn { border-radius: 12px; padding: 14px 26px; }
 @media (max-width: 768px) {
   .plan-selector { grid-template-columns: 1fr; }
   .incl-grid { grid-template-columns: 1fr; }
@@ -2002,4 +2036,24 @@ ul {
   .sticky-cta .btn { width: 100%; justify-content: center; }
   .horario-row { grid-template-columns: 1fr 1fr; }
   .horario-row .dia { grid-column: 1 / -1; }
+  #adesao-medprev .adesao-form { padding: 22px 18px 18px; }
+  #adesao-medprev .stepper-buttons { position: sticky; bottom: 0; z-index: 40; background: rgba(255,255,255,.97); border-top: 1px solid #e2e8f0; margin: 24px -18px -18px; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)); border-radius: 0 0 20px 20px; flex-direction: row; gap: 10px; }
+  #adesao-medprev .stepper-buttons .btn { width: auto; flex: 1; justify-content: center; padding: 13px 10px; font-size: .88rem; }
+  /* Tabela de condições vira cartões empilhados */
+  .table-scroll { overflow: visible; border: none; }
+  .pricing-table { min-width: 0; }
+  .pricing-table thead { display: none; }
+  .pricing-table, .pricing-table tbody { display: block; }
+  .pricing-table tbody tr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+  .pricing-table tbody tr td { border-bottom: none; text-align: center; padding: 10px 6px; display: flex; flex-direction: column; gap: 2px; align-items: center; justify-content: center; }
+  .pricing-table tbody tr td:first-child { grid-column: 1 / -1; position: static; background: #f1f5f9; font-size: .85rem; padding: 8px; }
+  .pricing-table tbody tr td + td::before { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--color-text-light); }
+  .pricing-table tbody tr td:nth-child(2)::before { content: 'Visa/Master'; }
+  .pricing-table tbody tr td:nth-child(3)::before { content: 'Elo'; }
+  .pricing-table tbody tr td:nth-child(4)::before { content: 'Amex'; }
+  .pricing-table .row-debito td:first-child { background: #d1fae5; }
+  .pricing-table tbody tr:nth-child(even) td { background: transparent; }
+  .pricing-table tbody tr:nth-child(even) td:first-child { background: #f1f5f9; }
+  .pricing-table .row-debito td { background: #ecfdf5; }
+  .pricing-table .row-debito td:first-child { background: #d1fae5; }
 }

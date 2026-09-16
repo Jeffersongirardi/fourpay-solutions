@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const Busboy = require('busboy');
 
-// Adesão MEDPREV — Clover Flex (teste local, sem commit em produção ainda)
+// Adesão MEDPREV — Clover Flex
 exports.handler = async (event) => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
       busboy.end(body);
     });
 
-    const required = ['cnpj', 'razao_social', 'cep', 'rua', 'numero', 'bairro', 'cidade', 'estado', 'telefone_loja', 'celular', 'banco', 'agencia', 'conta_corrente', 'qtd_clover_flex', 'antecipacao_automatica', 'link_pagamento'];
+    const required = ['cnpj', 'razao_social', 'cep', 'rua', 'numero', 'bairro', 'cidade', 'estado', 'telefone_loja', 'celular', 'banco', 'agencia', 'conta_corrente', 'qtd_clover_flex', 'faturamento_mensal', 'antecipacao_automatica', 'link_pagamento'];
     const missing = required.filter((f) => !fields[f] || !String(fields[f]).trim());
     if (missing.length) {
       return { statusCode: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ ok: false, message: 'Campos obrigatórios faltando: ' + missing.join(', ') }) };
@@ -69,6 +69,9 @@ exports.handler = async (event) => {
       ? 'Plano 2 — com antecipação 1,44% (Clover Flex R$ 79,00/mês + isenção por faturamento)'
       : 'Plano 1 — sem antecipação (Clover Flex R$ 99,00/mês)';
     function row(l, v) { return '<tr><td style="padding:3px 6px;font-weight:600;color:#64748b;border-bottom:1px solid #f1f5f9;width:150px;">' + l + '</td><td style="padding:3px 6px;font-weight:600;color:#0f172a;border-bottom:1px solid #f1f5f9;">' + (v || '—') + '</td></tr>'; }
+    const fatMap = { ate_30: 'Até R$ 30 mil', '30_50': 'R$ 30 – 50 mil', '50_85': 'R$ 50 – 85 mil', '85_125': 'R$ 85 – 125 mil', acima_125: 'Acima de R$ 125 mil' };
+    const isenMap = { ate_30: 0, '30_50': 1, '50_85': 2, '85_125': 3, acima_125: 4 };
+    const fatTxt = (fatMap[fields.faturamento_mensal] || fields.faturamento_mensal || '—') + ' (' + (isenMap[fields.faturamento_mensal] || 0) + ' mensalidade(s) isenta(s) no Plano 2)';
     const html =
       '<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:0 auto;">' +
       '<h2 style="background:#1d4ed8;color:#fff;padding:18px 22px;border-radius:12px 12px 0 0;margin:0;">🏥 Nova Adesão MEDPREV — ' + (fields.razao_social || '') + '</h2>' +
@@ -83,8 +86,8 @@ exports.handler = async (event) => {
       '<table style="width:100%;font-size:.85rem;" cellpadding="0" cellspacing="0">' +
       row('Banco/Ag/Conta', fields.banco + ' · ' + fields.agencia + ' · ' + fields.conta_corrente) +
       row('Qtd. Clover Flex', fields.qtd_clover_flex) +
-      row('Antecipação', fields.antecipacao_automatica) + row('Link pagamento', fields.link_pagamento) +
-      '</table><p style="color:#94a3b8;font-size:.75rem;">FOURPAY SOLUTIONS — página de teste MEDPREV.</p>' +
+      row('Antecipação', fields.antecipacao_automatica) + row('Faturamento estimado', fatTxt) + row('Link pagamento', fields.link_pagamento) +
+      '</table><p style="color:#94a3b8;font-size:.75rem;">FOURPAY SOLUTIONS · Adesão MEDPREV — Clover Flex Fiserv.</p>' +
       '</div></div>';
 
     const transporter = nodemailer.createTransport({

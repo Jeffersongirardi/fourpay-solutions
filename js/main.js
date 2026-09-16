@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastScroll = 0;
 
   window.addEventListener('scroll', () => {
+    if (!navbar) return;
     const currentScroll = window.scrollY;
     if (currentScroll > 50) {
       navbar.classList.add('scrolled');

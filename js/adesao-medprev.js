@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('medprevForm');
   if (!form) return;
 
-  // ---- Plano -> hidden + antecipação + detalhe visível ----
+  // ---- Plano -> hidden + resumo + detalhe visível ----
   const planCards = document.querySelectorAll('.plan-card');
   const planoHidden = document.getElementById('plano_escolhido');
-  const antecipSel = document.getElementById('mp_antecip');
+  const planoResumoTxt = document.getElementById('planoResumoTxt');
   function showPlanoDetalhe(v) {
     ['sem_antecipacao', 'com_antecipacao'].forEach(k => {
       const el = document.getElementById('detalhe-' + k);
@@ -19,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const radio = card ? card.querySelector('input[type="radio"]') : null;
     if (radio) radio.checked = true;
     if (planoHidden) planoHidden.value = v;
-    if (antecipSel) antecipSel.value = v === 'com_antecipacao' ? 'sim' : 'nao';
+    if (planoResumoTxt) planoResumoTxt.textContent = v === 'com_antecipacao' ? 'Plano 2 — com antecipação 1,44%' : 'Plano 1 — sem antecipação';
     showPlanoDetalhe(v);
+    updateIsenHint();
+    updateOportunidade();
   }
   planCards.forEach(card => {
     card.addEventListener('click', () => {
@@ -163,6 +165,48 @@ document.addEventListener('DOMContentLoaded', () => {
   if (bancoSel) bancoSel.addEventListener('change', () => { toggleBancoOutro(); saveMedprev(); });
   toggleBancoOutro();
 
+  // ---- Faturamento -> dica de isenção ----
+  const fatSel = document.getElementById('mp_faturamento');
+  const isenHint = document.getElementById('isenHint');
+  const ISENCAO = { ate_30: 0, '30_50': 1, '50_85': 2, '85_125': 3, acima_125: 4 };
+  function updateIsenHint() {
+    if (!isenHint) return;
+    const plano = planoHidden ? planoHidden.value : 'com_antecipacao';
+    const n = fatSel && fatSel.value ? (ISENCAO[fatSel.value] ?? 0) : null;
+    if (n === null) { isenHint.textContent = ''; return; }
+    if (plano !== 'com_antecipacao') {
+      isenHint.textContent = 'A isenção por faturamento vale para o Plano 2 (com antecipação).';
+    } else if (n === 0) {
+      isenHint.textContent = 'Abaixo de R$ 30 mil/mês: sem isenção — vale avaliar o Plano 1.';
+    } else {
+      isenHint.textContent = 'Com essa faixa, sua loja garante ' + n + ' mensalidade' + (n > 1 ? 's' : '') + ' isenta' + (n > 1 ? 's' : '') + ' no Plano 2.';
+    }
+  }
+  if (fatSel) fatSel.addEventListener('change', () => { updateIsenHint(); updateOportunidade(); saveMedprev(); });
+
+  // ---- Indicador de oportunidade (Plano 1 + faixa com isenção) ----
+  const oportBox = document.getElementById('oportBox');
+  function updateOportunidade() {
+    if (!oportBox) return;
+    const plano = planoHidden ? planoHidden.value : 'com_antecipacao';
+    const n = fatSel && fatSel.value ? (ISENCAO[fatSel.value] ?? 0) : 0;
+    if (plano === 'sem_antecipacao' && n > 0) {
+      oportBox.hidden = false;
+      oportBox.innerHTML =
+        '<strong>💡 Oportunidade:</strong> com esse faturamento, o <strong>Plano 2</strong> te dá ' + n + ' mensalidade' + (n > 1 ? 's' : '') + ' isenta' + (n > 1 ? 's' : '') + ' + antecipação automática de 1,44%.' +
+        ' <button type="button" class="btn btn-primary btn-sm" id="btnTrocaPlano">Trocar para o Plano 2</button>';
+      document.getElementById('btnTrocaPlano').addEventListener('click', () => {
+        applyPlano('com_antecipacao');
+        saveMedprev();
+        oportBox.innerHTML = '<strong>✅ Pronto!</strong> Plano 2 ativo — revisão e e-mail atualizados.';
+      });
+    } else {
+      oportBox.hidden = true;
+      oportBox.innerHTML = '';
+    }
+  }
+  updateOportunidade();
+
   // ---- Qty steppers ----
   document.querySelectorAll('[data-qty]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -242,6 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return el.value || '—';
   }
   function row(l, v) { return '<div class="review-row"><span class="review-label">' + l + '</span><span class="review-value">' + v + '</span></div>'; }
+  function fatLabel() {
+    const map = { ate_30: 'Até R$ 30 mil', '30_50': 'R$ 30 – 50 mil', '50_85': 'R$ 50 – 85 mil', '85_125': 'R$ 85 – 125 mil', acima_125: 'Acima de R$ 125 mil' };
+    const v = fatSel ? fatSel.value : '';
+    return (map[v] || '—');
+  }
   function planoLabel() {
     return form.querySelector('[name="plano_escolhido"]').value === 'com_antecipacao'
       ? 'Plano 2 — com antecipação 1,44%'
@@ -270,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     h += row('Banco/Ag/Conta', bancoNome() + ' · ' + val('agencia') + ' · ' + val('conta_corrente'));
     h += row('Comprovante', val('doc_comprovante_bancario'));
     h += row('Qtd. Clover Flex', val('qtd_clover_flex'));
-    h += row('Antecipação', val('antecipacao_automatica')) + row('Link pagamento', val('link_pagamento')) + '</div>';
+    h += row('Antecipação', planoHidden && planoHidden.value === 'com_antecipacao' ? 'Sim — Plano 2 (1,44%)' : 'Não — Plano 1') + row('Faturamento estimado', fatLabel()) + row('Link pagamento', val('link_pagamento')) + '</div>';
     c.innerHTML = h;
   }
 
@@ -322,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const p = s.plano_escolhido || 'com_antecipacao';
     applyPlano(p);
     toggleBancoOutro();
+    updateIsenHint();
     if (s._step && s._step > 1 && s._step < 4) showStep(parseInt(s._step));
   }
   form.querySelectorAll('input:not([type="file"]), select').forEach(el => {
@@ -355,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     const fd = new FormData(form);
+    fd.set('antecipacao_automatica', planoHidden && planoHidden.value === 'com_antecipacao' ? 'sim' : 'nao');
     if (bancoSel && bancoSel.value === 'Outro' && bancoOutro) fd.set('banco', bancoOutro.value);
     fd.append('socios_json', JSON.stringify(socios));
     fd.append('horario_json', JSON.stringify(horario));
