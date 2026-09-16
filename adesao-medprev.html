@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adesão MEDPREV — Clover Flex | FOURPAY SOLUTIONS</title>
+  <meta name="description" content="Condição exclusiva para unidades MEDPREV: Clover Flex com taxas negociadas, Pix, parcelamento em até 12x e Link de Pagamento. Adesão 100% digital." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="favicon.png" type="image/png" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="imagens/4Pay.webp" alt="FOURPAY SOLUTIONS" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="franqueado.html">Seja um Franqueado</a>
+        <a href="blog.html">Blog</a>
+        <a href="contato.html">Contato</a>
+        <a href="http://masterfranquiafourpay.us-east-2.elasticbeanstalk.com/login" target="_blank" class="btn-nav">Área do Franqueado <i class="fas fa-external-link-alt"></i></a>
+      </div>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="page-hero medprev-hero">
+    <div class="container">
+      <span class="badge-region"><i class="fas fa-heart-pulse"></i> Condição exclusiva · Unidades MEDPREV</span>
+      <h1>Clover Flex para sua unidade <span class="text-accent">MEDPREV</span></h1>
+      <p>Receba Pix, débito, crédito e parcelado em até 12x na recepção — com a taxa negociada do grupo e adesão 100% digital.</p>
+      <div class="hero-buttons" style="justify-content:center;">
+        <a href="#planos" class="btn btn-primary">Ver condição comercial <i class="fas fa-arrow-down"></i></a>
+        <a href="#adesao-medprev" class="btn btn-outline">Aderir agora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clover Flex -->
+  <section class="section medprev-showcase">
+    <div class="container">
+      <div class="showcase-stage animate">
+        <div class="showcase-img">
+          <img src="imagens/clover-flex.png" alt="Clover Flex" />
+        </div>
+        <div class="trust-row">
+          <span class="hl-fiserv"><i class="fas fa-building-columns"></i> Tecnologia Fiserv</span>
+          <span class="hl-fiserv"><i class="fas fa-qrcode"></i> Pix 0,29%</span>
+          <span class="hl-fiserv"><i class="fas fa-link"></i> Link de pagamento</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planos -->
+  <section class="section section-alt" id="planos">
+    <div class="container">
+      <div class="section-header animate">
+        <h2>Condição comercial MEDPREV</h2>
+        <p>Escolha o plano abaixo — ele já pré-preenche a adesão.</p>
+      </div>
+
+      <div class="plan-selector animate" role="radiogroup" aria-label="Escolha o plano">
+        <label class="plan-card" data-plan="sem_antecipacao">
+          <input type="radio" name="plano_card" value="sem_antecipacao" />
+          <span class="plan-top"><i class="fas fa-calendar-check"></i> Sem antecipação</span>
+          <span class="plan-price">R$ 99,00<small>/mês</small></span>
+          <span class="plan-name">Plano 1 · Clover Flex</span>
+          <span class="plan-feats">
+            <span><i class="fas fa-check"></i> Sem antecipação automática</span>
+            <span><i class="fas fa-check"></i> Pix 0,29%</span>
+            <span><i class="fas fa-check"></i> Débito 0,79%</span>
+          </span>
+          <span class="plan-check"><i class="fas fa-check"></i></span>
+        </label>
+        <label class="plan-card plan-featured selected" data-plan="com_antecipacao">
+          <input type="radio" name="plano_card" value="com_antecipacao" checked />
+          <span class="plan-badge">Recomendado</span>
+          <span class="plan-top"><i class="fas fa-bolt"></i> Com antecipação 1,44%</span>
+          <span class="plan-price">R$ 79,00<small>/mês</small></span>
+          <span class="plan-name">Plano 2 · Clover Flex</span>
+          <span class="plan-feats">
+            <span><i class="fas fa-check"></i> Antecipação automática 1,44%</span>
+            <span><i class="fas fa-check"></i> Pix 0,29%</span>
+            <span><i class="fas fa-check"></i> Isenção por faturamento</span>
+          </span>
+          <span class="plan-check"><i class="fas fa-check"></i></span>
+        </label>
+      </div>
+
+      <div class="pricing-wrap animate" id="planoDetalhe">
+        <div class="pricing-detail" id="detalhe-sem_antecipacao" hidden>
+          <div class="chips-row">
+            <span class="chip"><strong>Débito</strong> 0,79%</span>
+            <span class="chip"><strong>1x</strong> 1,76%</span>
+            <span class="chip"><strong>Clover Flex</strong> R$ 99,00/mês</span>
+            <span class="chip"><strong>Pix</strong> 0,29%</span>
+          </div>
+          <div class="table-scroll">
+            <table class="pricing-table">
+              <thead><tr><th>Plano</th><th>Visa/Master</th><th>Elo</th><th class="col-amex">Amex</th></tr></thead>
+              <tbody>
+                <tr class="row-debito"><td>Débito</td><td>0,79%</td><td>0,99%</td><td class="col-amex">—</td></tr>
+                <tr><td>1x</td><td>1,76%</td><td>2,15%</td><td class="col-amex">2,90%</td></tr>
+                <tr><td>2x a 6x</td><td>2,40%</td><td>2,49%</td><td class="col-amex">3,05%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="step-desc">Sem antecipação automática cadastrada.</p>
+        </div>
+
+        <div class="pricing-detail" id="detalhe-com_antecipacao">
+          <div class="chips-row">
+            <span class="chip"><strong>Débito</strong> 0,75%</span>
+            <span class="chip"><strong>1x</strong> 3,12%</span>
+            <span class="chip"><strong>Clover Flex</strong> R$ 79,00/mês
+              <span class="info-tip">
+                <button type="button" class="info-btn" aria-expanded="false" aria-describedby="isenPop" aria-label="Ver regra de isenção">!</button>
+                <span class="info-pop" id="isenPop" role="tooltip" hidden>
+                  <strong>Isenção por faturamento da loja</strong>
+                  <span>R$ 30 mil/mês <em>→ 1 mensalidade isenta</em></span>
+                  <span>R$ 50 mil/mês <em>→ 2 mensalidades</em></span>
+                  <span>R$ 85 mil/mês <em>→ 3 mensalidades</em></span>
+                  <span>R$ 125 mil/mês <em>→ 4 mensalidades</em></span>
+                </span>
+              </span>
+            </span>
+            <span class="chip"><strong>Pix</strong> 0,29%</span>
+            <span class="chip chip-accent"><strong>Antecipação</strong> 1,44%</span>
+          </div>
+          <div class="table-scroll">
+            <table class="pricing-table">
+              <thead><tr><th>Plano</th><th>Visa/Master</th><th>Elo</th><th class="col-amex">Amex</th></tr></thead>
+              <tbody>
+                <tr class="row-debito"><td>Débito</td><td>0,75%</td><td>0,99%</td><td class="col-amex">—</td></tr>
+                <tr><td>1x</td><td>3,12%</td><td>3,56%</td><td class="col-amex">4,30%</td></tr>
+                <tr><td>2x</td><td>4,51%</td><td>4,60%</td><td class="col-amex">5,14%</td></tr>
+                <tr><td>3x</td><td>5,21%</td><td>5,30%</td><td class="col-amex">5,84%</td></tr>
+                <tr><td>4x</td><td>5,91%</td><td>6,00%</td><td class="col-amex">6,54%</td></tr>
+                <tr><td>5x</td><td>6,62%</td><td>6,70%</td><td class="col-amex">7,24%</td></tr>
+                <tr><td>6x</td><td>7,32%</td><td>7,40%</td><td class="col-amex">7,94%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="incl-grid animate">
+        <div class="incl-card">
+          <div class="icon"><i class="fas fa-link"></i></div>
+          <h4>Link de Pagamento</h4>
+          <p>Mesma condição da máquina + R$ 0,10 por link transacionado.</p>
+        </div>
+        <div class="incl-card">
+          <div class="icon"><i class="fas fa-mobile-screen-button"></i></div>
+          <h4>BIN TAP</h4>
+          <p>Receba pagamentos direto pelo celular da equipe.</p>
+        </div>
+        <div class="incl-card">
+          <div class="icon"><i class="fas fa-display"></i></div>
+          <h4>Clover</h4>
+          <p>Plataforma completa que vai além da maquininha.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulário -->
+  <section class="section" id="adesao-medprev">
+    <div class="container">
+      <div class="section-header animate">
+        <h2>Adesão da unidade</h2>
+        <p>Leva ~4 minutos. Você pode parar e continuar — salvamos no navegador.</p>
+      </div>
+
+      <div class="faq-wrap animate">
+        <details class="faq-item">
+          <summary>Como funciona a isenção da mensalidade?</summary>
+          <p>No Plano 2, a isenção segue o faturamento mensal da loja: acima de R$ 30 mil = 1 mensalidade isenta · R$ 50 mil = 2 · R$ 85 mil = 3 · R$ 125 mil = 4.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como funciona o Link de Pagamento?</summary>
+          <p>Mesma condição comercial da máquina, com acréscimo de R$ 0,10 por link transacionado. Ideal para teleconsulta e agendamentos pelo WhatsApp.</p>
+        </details>
+      </div>
+
+      <div class="stepper-wrapper">
+        <div class="stepper-nav">
+          <button type="button" class="stepper-step active" data-step="1"><span class="stepper-num">1</span><span class="stepper-label">Loja</span></button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="2"><span class="stepper-num">2</span><span class="stepper-label">Sócios</span></button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="3"><span class="stepper-num">3</span><span class="stepper-label">Banco</span></button>
+          <span class="stepper-line"></span>
+          <button type="button" class="stepper-step" data-step="4"><span class="stepper-num">4</span><span class="stepper-label">Revisão</span></button>
+        </div>
+        <div class="stepper-progress">
+          <span class="progress-text">Passo <span id="stepNum">1</span> de 4</span>
+          <span class="progress-track"><span class="progress-fill" id="progressFill" style="width:25%;"></span></span>
+        </div>
+
+        <form id="medprevForm" class="adesao-form" method="POST" enctype="multipart/form-data" novalidate>
+          <input type="hidden" id="plano_escolhido" name="plano_escolhido" value="com_antecipacao" />
+
+          <!-- ETAPA 1 -->
+          <div class="stepper-content active" data-step="1">
+            <h3>Dados da loja</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_cnpj">CNPJ *</label>
+                <input type="text" id="mp_cnpj" name="cnpj" class="mask-cnpj" required placeholder="00.000.000/0000-00" />
+              </div>
+              <div class="form-group">
+                <label for="mp_razao">Razão social *</label>
+                <input type="text" id="mp_razao" name="razao_social" required maxlength="150" placeholder="Conforme CNPJ" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mp_unidade">Unidade / Nome fantasia (opcional)</label>
+              <input type="text" id="mp_unidade" name="unidade" maxlength="120" placeholder="Ex: MEDPREV Londrina Centro" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_cep">CEP *</label>
+                <input type="text" id="mp_cep" name="cep" class="mask-cep" required placeholder="00000-000" />
+              </div>
+              <div class="form-group">
+                <label for="mp_rua">Rua / Avenida *</label>
+                <input type="text" id="mp_rua" name="rua" required maxlength="150" placeholder="Logradouro" />
+              </div>
+              <div class="form-group">
+                <label for="mp_numero">Número *</label>
+                <input type="text" id="mp_numero" name="numero" required maxlength="15" placeholder="Nº" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_compl">Complemento</label>
+                <input type="text" id="mp_compl" name="complemento" maxlength="80" placeholder="Sala, andar (opcional)" />
+              </div>
+              <div class="form-group">
+                <label for="mp_bairro">Bairro *</label>
+                <input type="text" id="mp_bairro" name="bairro" required maxlength="80" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_cidade">Cidade *</label>
+                <input type="text" id="mp_cidade" name="cidade" required maxlength="80" />
+              </div>
+              <div class="form-group">
+                <label for="mp_estado">Estado *</label>
+                <select id="mp_estado" name="estado" required>
+                  <option value="">Selecione</option>
+                  <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_tel_loja">Telefone da loja *</label>
+                <input type="tel" id="mp_tel_loja" name="telefone_loja" class="mask-tel" required placeholder="(00) 0000-0000" />
+              </div>
+              <div class="form-group">
+                <label for="mp_cel">Celular / WhatsApp *</label>
+                <input type="tel" id="mp_cel" name="celular" class="mask-tel" required placeholder="(00) 00000-0000" />
+              </div>
+            </div>
+            <h4 style="margin:18px 0 8px;">Horário de funcionamento *</h4>
+            <p class="step-desc">Marque <strong>Fechado</strong> nos dias sem atendimento. Use <strong>Replicar Seg–Sex</strong> para preencher rápido.</p>
+            <div class="horario-grid" id="horarioGrid"></div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn btn-outline-dark btn-sm" id="btnReplica">Replicar Seg–Sex</button>
+            </div>
+            <div class="stepper-buttons">
+              <span></span>
+              <button type="button" class="btn btn-primary stepper-next" data-next="2">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 2 -->
+          <div class="stepper-content" data-step="2">
+            <h3>Sócios</h3>
+            <p class="step-desc">Cadastre ao menos 1 sócio. Use <strong>+ Adicionar sócio</strong> para incluir outros (máx. 4).</p>
+            <div id="sociosList"></div>
+            <button type="button" class="btn btn-outline-dark btn-sm" id="btnAddSocio"><i class="fas fa-plus"></i> Adicionar sócio</button>
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="1"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="button" class="btn btn-primary stepper-next" data-next="3">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 3 -->
+          <div class="stepper-content" data-step="3">
+            <h3>Banco, equipamentos e opções</h3>
+            <div class="form-row three-col">
+              <div class="form-group">
+                <label for="mp_banco">Banco *</label>
+                <select id="mp_banco" name="banco" required>
+                  <option value="">Selecione</option>
+                  <option>Banco do Brasil</option><option>Bradesco</option><option>Caixa</option><option>Itaú</option><option>Santander</option><option>Sicoob</option><option>Sicredi</option><option>Nubank</option><option>Inter</option><option>Outro</option>
+                </select>
+                <input type="text" id="mp_banco_outro" name="banco_outro" maxlength="60" placeholder="Digite o nome do banco" style="display:none;margin-top:8px;" />
+              </div>
+              <div class="form-group">
+                <label for="mp_ag">Agência + dígito *</label>
+                <input type="text" id="mp_ag" name="agencia" required maxlength="12" placeholder="0000-0" />
+              </div>
+              <div class="form-group">
+                <label for="mp_conta">Conta + dígito *</label>
+                <input type="text" id="mp_conta" name="conta_corrente" required maxlength="20" placeholder="000000-0" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mp_comprovante">Comprovante bancário (PDF ou imagem, máx. 5 MB) *</label>
+              <div class="file-input-wrapper">
+                <input type="file" id="mp_comprovante" name="doc_comprovante_bancario" required accept=".pdf,.jpg,.jpeg,.png" />
+                <span class="file-placeholder"><i class="fas fa-upload"></i> Clique para selecionar</span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_qtd_flex" class="qty-label"><img src="imagens/clover-flex.png" alt="Clover Flex" class="qty-thumb" /> Qtd. Clover Flex *</label>
+                <div class="qty-stepper">
+                  <button type="button" data-qty="mp_qtd_flex" data-d="-1">−</button>
+                  <input type="number" id="mp_qtd_flex" name="qtd_clover_flex" value="1" min="1" max="20" required readonly />
+                  <button type="button" data-qty="mp_qtd_flex" data-d="1">+</button>
+                </div>
+              </div>
+            </div>
+            <p class="step-desc">Link de Pagamento usa a mesma condição da máquina + R$ 0,10 por link transacionado. BIN TAP e Clover inclusos no ecossistema.</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mp_antecip">Antecipação automática? *</label>
+                <select id="mp_antecip" name="antecipacao_automatica" required>
+                  <option value="sim">Sim — Plano 2 com antecipação 1,44% (recomendado)</option>
+                  <option value="nao">Não — Plano 1 sem antecipação</option>
+                </select>
+                <small class="step-desc">Preenchido pelo plano escolhido acima — pode alterar.</small>
+              </div>
+              <div class="form-group">
+                <label>Utiliza Link de Pagamento? *</label>
+                <div class="doc-id-toggle">
+                  <label class="doc-id-option"><input type="radio" name="link_pagamento" value="sim" required /> Sim</label>
+                  <label class="doc-id-option"><input type="radio" name="link_pagamento" value="nao" /> Não</label>
+                </div>
+              </div>
+            </div>
+            <div class="consent-list">
+              <label class="consent-item"><input type="checkbox" name="consent_veracidade" value="Declaro verdadeiras" /><span><strong>Veracidade:</strong> declaro que as informações são verdadeiras e sou responsável por elas.</span></label>
+              <label class="consent-item"><input type="checkbox" name="consent_comunicacao" value="Autorizo" /><span><strong>Comunicação/LGPD:</strong> autorizo FOURPAY + Fiserv a usar estes dados para contato e credenciamento.</span></label>
+            </div>
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="2"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="button" class="btn btn-primary stepper-next" data-next="4">Revisar <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- ETAPA 4 -->
+          <div class="stepper-content" data-step="4">
+            <h3>Revisão e envio</h3>
+            <p class="step-desc">Confira e edite se precisar.</p>
+            <div id="reviewContent" class="review-content"></div>
+            <div class="stepper-buttons">
+              <button type="button" class="btn btn-outline-dark stepper-prev" data-prev="3"><i class="fas fa-arrow-left"></i> Anterior</button>
+              <button type="submit" class="btn btn-primary btn-submit" style="width:auto;">Enviar adesão <i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+
+          <div class="form-success" id="medprevSuccess">
+            <i class="fas fa-check-circle"></i> Adesão MEDPREV enviada! Vamos conferir os dados e chamar no WhatsApp para agendar a instalação.
+          </div>
+          <div class="form-error" id="medprevError">
+            <i class="fas fa-exclamation-circle"></i> <span class="error-text">Erro ao enviar. Tente de novo ou chame no WhatsApp.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo"><img src="imagens/4Pay.webp" alt="FOURPAY SOLUTIONS" /></div>
+          <p>Condição exclusiva MEDPREV · Clover Flex Fiserv via FOURPAY SOLUTIONS.</p>
+        </div>
+        <div><h4>Navegação</h4><ul><li><a href="index.html">Home</a></li><li><a href="servicos.html#clover">Clover</a></li><li><a href="contato.html">Contato</a></li></ul></div>
+        <div><h4>MEDPREV</h4><ul><li><a href="#planos">Planos</a></li><li><a href="#adesao-medprev">Aderir</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 FOURPAY SOLUTIONS · Página de teste — não indexada.</p></div>
+    </div>
+  </footer>
+
+  <div class="sticky-cta" id="stickyCta">
+    <a href="#adesao-medprev" class="btn btn-primary">Aderir agora <i class="fas fa-arrow-right"></i></a>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/adesao-medprev.js"></script>
+</body>
+</html>
