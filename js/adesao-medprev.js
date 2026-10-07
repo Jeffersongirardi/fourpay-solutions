@@ -207,6 +207,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateOportunidade();
 
+  // ---- E-commerce em sanfona no mobile (fonte única, sem duplicar taxas) ----
+  (function setupEcommCollapse() {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const groups = [];
+    document.querySelectorAll('#planoDetalhe .pricing-detail table.pricing-table').forEach(table => {
+      const tbody = table.querySelector('tbody');
+      const divisor = tbody ? tbody.querySelector('.row-divisor') : null;
+      if (!tbody || !divisor) return;
+      const rows = [];
+      let el = divisor.nextElementSibling;
+      while (el) { rows.push(el); el = el.nextElementSibling; }
+      if (!rows.length) return;
+      groups.push({ tbody, divisor, rows, details: null });
+    });
+    function apply() {
+      groups.forEach(g => {
+        if (mq.matches && !g.details) {
+          const details = document.createElement('details');
+          details.className = 'ecomm-collapse';
+          details.innerHTML = '<summary><i class="fas fa-globe"></i> Ver taxas e-commerce (online)</summary>';
+          const wrap = document.createElement('div');
+          wrap.className = 'table-scroll';
+          const t2 = document.createElement('table');
+          t2.className = 'pricing-table';
+          const tb2 = document.createElement('tbody');
+          g.rows.forEach(r => tb2.appendChild(r));
+          t2.appendChild(tb2);
+          wrap.appendChild(t2);
+          details.appendChild(wrap);
+          g.table = g.tbody.closest('table');
+          g.table.after(details);
+          g.divisor.style.display = 'none';
+          g.details = details;
+        } else if (!mq.matches && g.details) {
+          g.rows.forEach(r => g.tbody.appendChild(r));
+          g.divisor.style.display = '';
+          g.details.remove();
+          g.details = null;
+        }
+      });
+    }
+    if (mq.addEventListener) mq.addEventListener('change', apply);
+    apply();
+  })();
+
   // ---- Qty steppers ----
   document.querySelectorAll('[data-qty]').forEach(btn => {
     btn.addEventListener('click', () => {

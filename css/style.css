@@ -1908,7 +1908,7 @@ ul {
 .medprev-hero .badge-region { justify-content: center; margin-bottom: 14px; }
 .medprev-hero .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 .brandbar { background: #fff; border-bottom: 1px solid #eef2f7; box-shadow: 0 2px 12px rgba(15,23,42,.05); }
-body.medprev-page { color-scheme: light; background: #fff; }
+body.medprev-page { color-scheme: light; color-scheme: only light; background: #fff; }
 .brandbar .container { display: flex; justify-content: center; padding-top: 12px; padding-bottom: 12px; }
 .brandbar .logo img { height: 40px; width: auto; }
 /* Pílula branca: mantém o logo escuro legível mesmo com night mode forçado */
@@ -2072,4 +2072,35 @@ body.medprev-page { color-scheme: light; background: #fff; }
   .pricing-table tbody tr.row-divisor { display: block; border: none; background: transparent; margin: 4px 0 10px; overflow: visible; }
   .pricing-table tbody tr.row-divisor td { display: block; background: #eff6ff; border: 1px dashed #bfdbfe; border-radius: 10px; text-align: center; padding: 9px; }
   .pricing-table tbody tr.row-divisor td::before { display: none; }
+  /* ---- Pacote mobile MEDPREV ---- */
+  /* 1. Fim do zoom automático do iPhone ao focar campos */
+  #adesao-medprev .form-group input,
+  #adesao-medprev .form-group select,
+  #adesao-medprev .form-group textarea { font-size: 16px; }
+  /* 2. Botões do hero em largura total */
+  .medprev-hero .hero-buttons .btn { flex: 1 1 100%; justify-content: center; }
+  .medprev-hero { padding-top: 40px; }
+  /* 3. Stepper: alvos maiores + rótulo da etapa atual visível */
+  #adesao-medprev .stepper-step { padding: 10px 8px; }
+  #adesao-medprev .stepper-num { width: 30px; height: 30px; }
+  #adesao-medprev .stepper-step.active .stepper-label { display: inline; }
+  /* 4. Horário: checkbox em linha própria */
+  #adesao-medprev .mini-check { grid-column: 1 / -1; justify-content: flex-start; padding: 2px 0; }
+  /* 5. Alvos de toque maiores */
+  #adesao-medprev .info-btn { width: 28px; height: 28px; }
+  #adesao-medprev .doc-id-option { padding: 12px 14px; }
+  #adesao-medprev .consent-item input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--color-success); }
+  /* 6. Respiro calibrado */
+  #adesao-medprev .plan-card { padding: 18px 16px 16px; }
+  #adesao-medprev .showcase-link { padding: 20px 18px; }
+  #adesao-medprev .chip { font-size: .78rem; padding: 5px 10px; }
+  #adesao-medprev .trust-row span { font-size: .8rem; }
+  #adesao-medprev .file-input-wrapper { padding: 16px 12px; }
+  /* Sanfona do e-commerce */
+  .ecomm-collapse { margin-bottom: 10px; border: 1px dashed #bfdbfe; border-radius: 12px; background: #f8fbff; }
+  .ecomm-collapse summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px; font-size: .88rem; font-weight: 800; color: var(--color-primary); }
+  .ecomm-collapse summary::-webkit-details-marker { display: none; }
+  .ecomm-collapse summary::after { content: '+'; font-size: 1.1rem; }
+  .ecomm-collapse[open] summary::after { content: '−'; }
+  .ecomm-collapse .table-scroll { border: none; padding: 0 8px 8px; }
 }
