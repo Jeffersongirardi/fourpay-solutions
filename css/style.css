@@ -1917,11 +1917,17 @@ body.medprev-page { color-scheme: light; background: #fff; }
 .footer-slim .footer-brand { display: flex; flex-direction: column; align-items: center; }
 .footer-slim .footer-bottom { border: none; padding-top: 0; }
 .medprev-showcase { padding-top: 10px; padding-bottom: 0; }
-.medprev-showcase .showcase-stage { background-color: #dbeafe; background: linear-gradient(160deg, #eff6ff 0%, #dbeafe 55%, #bfdbfe 100%); border-radius: 24px; padding: 40px 24px 24px; position: relative; overflow: hidden; }
+.medprev-showcase .showcase-stage { background-color: #dbeafe; background: linear-gradient(160deg, #eff6ff 0%, #dbeafe 55%, #bfdbfe 100%); border-radius: 24px; padding: 40px 32px 24px; position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
 .medprev-showcase .showcase-stage::before { content: ''; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.7), transparent 65%); top: -140px; right: -100px; pointer-events: none; }
 .medprev-showcase .showcase-img { display: flex; justify-content: center; position: relative; }
-.medprev-showcase .showcase-img img { width: min(460px, 86vw); height: auto; filter: drop-shadow(0 24px 48px rgba(15,23,42,.25)); }
-.trust-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 22px; margin-top: 20px; position: relative; }
+.medprev-showcase .showcase-img img { width: min(420px, 80vw); height: auto; filter: drop-shadow(0 24px 48px rgba(15,23,42,.25)); }
+.showcase-link { position: relative; background: #fff; border-radius: 16px; padding: 26px 24px; box-shadow: 0 14px 36px rgba(15,23,42,.12); }
+.showcase-kicker { display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: #F26522; margin-bottom: 10px; }
+.showcase-link h3 { font-size: 1.25rem; font-weight: 800; color: var(--color-dark); margin-bottom: 14px; letter-spacing: -.01em; }
+.showcase-link ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.showcase-link li { font-size: .92rem; color: var(--color-text); display: flex; gap: 10px; align-items: flex-start; }
+.showcase-link li i { color: var(--color-success); margin-top: 3px; }
+.trust-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 22px; margin-top: 20px; position: relative; grid-column: 1 / -1; }
 .trust-row span { font-size: .85rem; font-weight: 700; color: #1e3a8a; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.7); border-radius: 999px; padding: 7px 14px; }
 .trust-row i { color: var(--color-primary); }
 .trust-row .hl-fiserv { color: #F26522; }
@@ -1970,6 +1976,8 @@ body.medprev-page { color-scheme: light; background: #fff; }
 .pricing-table tbody tr:last-child td { border-bottom: none; }
 .pricing-table .row-debito td { background: #ecfdf5; font-weight: 700; }
 .pricing-table .row-debito td:first-child { background: #ecfdf5; }
+.row-divisor td { background: #eff6ff; color: var(--color-primary); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; text-align: center; padding: 9px 12px; }
+.row-divisor td:first-child { background: #eff6ff; }
 .pricing-table .col-amex { color: var(--color-text-light); }
 .pricing-detail { animation: planoFade .3s ease; }
 @keyframes planoFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -2040,6 +2048,7 @@ body.medprev-page { color-scheme: light; background: #fff; }
   .sticky-cta .btn { width: 100%; justify-content: center; }
   .horario-row { grid-template-columns: 1fr 1fr; }
   .horario-row .dia { grid-column: 1 / -1; }
+  .medprev-showcase .showcase-stage { grid-template-columns: 1fr; padding: 28px 18px 20px; }
   #adesao-medprev .adesao-form { padding: 22px 18px 18px; }
   #adesao-medprev .stepper-buttons { position: sticky; bottom: 0; z-index: 40; background: rgba(255,255,255,.97); border-top: 1px solid #e2e8f0; margin: 24px -18px -18px; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)); border-radius: 0 0 20px 20px; flex-direction: row; gap: 10px; }
   #adesao-medprev .stepper-buttons .btn { width: auto; flex: 1; justify-content: center; padding: 13px 10px; font-size: .88rem; }
@@ -2060,4 +2069,7 @@ body.medprev-page { color-scheme: light; background: #fff; }
   .pricing-table tbody tr:nth-child(even) td:first-child { background: #f1f5f9; }
   .pricing-table .row-debito td { background: #ecfdf5; }
   .pricing-table .row-debito td:first-child { background: #d1fae5; }
+  .pricing-table tbody tr.row-divisor { display: block; border: none; background: transparent; margin: 4px 0 10px; overflow: visible; }
+  .pricing-table tbody tr.row-divisor td { display: block; background: #eff6ff; border: 1px dashed #bfdbfe; border-radius: 10px; text-align: center; padding: 9px; }
+  .pricing-table tbody tr.row-divisor td::before { display: none; }
 }

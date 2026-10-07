@@ -67,7 +67,7 @@ exports.handler = async (event) => {
 
     const planoTxt = fields.plano_escolhido === 'com_antecipacao'
       ? 'Plano 2 — com antecipação 1,44% (Clover Flex R$ 79,00/mês + isenção por faturamento)'
-      : 'Plano 1 — sem antecipação (Clover Flex R$ 99,00/mês)';
+      : 'Plano 1 — sem antecipação (Clover Flex R$ 59,90/mês)';
     function row(l, v) { return '<tr><td style="padding:3px 6px;font-weight:600;color:#64748b;border-bottom:1px solid #f1f5f9;width:150px;">' + l + '</td><td style="padding:3px 6px;font-weight:600;color:#0f172a;border-bottom:1px solid #f1f5f9;">' + (v || '—') + '</td></tr>'; }
     const fatMap = { ate_30: 'Até R$ 30 mil', '30_50': 'R$ 30 – 50 mil', '50_85': 'R$ 50 – 85 mil', '85_125': 'R$ 85 – 125 mil', acima_125: 'Acima de R$ 125 mil' };
     const isenMap = { ate_30: 0, '30_50': 1, '50_85': 2, '85_125': 3, acima_125: 4 };
